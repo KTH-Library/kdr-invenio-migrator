@@ -1,2 +1,2 @@
 def main() -> None:
-    print('Hello from kth-invenio-migrator!')
+    print("Hello from kth-invenio-migrator!")

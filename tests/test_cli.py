@@ -17,4 +17,4 @@ def test_main_function():
     output = captured_output.getvalue().strip()
 
     # Assert that the output matches what we expect
-    assert output == 'Hello from kth-invenio-migrator!'
+    assert output == "Hello from kth-invenio-migrator!"

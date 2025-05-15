@@ -9,11 +9,11 @@ from unittest.mock import patch
 def mock_env_variables():
     """Fixture to provide mocked environment variables."""
     env_vars = {
-        'ZENODO_API_TOKEN': 'mock_zenodo_token',
-        'ZENODO_COMMUNITY_API_URL': 'https://mock.zenodo.org/api/records',
-        'KTH_KDR_API_TOKEN': 'mock_kth_token',
-        'KTH_KDR_COMMUNITY_URL': 'https://mock.kth.se/api/invenio',
-        'INCLUDE_RECORD_FILES': 'false',
+        "ZENODO_API_TOKEN": "mock_zenodo_token",
+        "ZENODO_COMMUNITY_API_URL": "https://mock.zenodo.org/api/records",
+        "KTH_KDR_API_TOKEN": "mock_kth_token",
+        "KTH_KDR_COMMUNITY_URL": "https://mock.kth.se/api/invenio",
+        "INCLUDE_RECORD_FILES": "false",
     }
 
     with patch.dict(os.environ, env_vars):
@@ -24,13 +24,13 @@ def mock_env_variables():
 def sample_zenodo_record():
     """Fixture to provide a sample Zenodo record for testing."""
     return {
-        'id': 12345,
-        'metadata': {
-            'title': 'Test Dataset',
-            'description': 'This is a test dataset for unit testing',
-            'creators': [{'name': 'Test, User', 'affiliation': 'KTH'}],
-            'publication_date': '2023-05-15',
-            'resource_type': {'type': 'dataset'},
+        "id": 12345,
+        "metadata": {
+            "title": "Test Dataset",
+            "description": "This is a test dataset for unit testing",
+            "creators": [{"name": "Test, User", "affiliation": "KTH"}],
+            "publication_date": "2023-05-15",
+            "resource_type": {"type": "dataset"},
         },
     }
 
@@ -49,5 +49,5 @@ def capture_stdout(monkeypatch):
         def flush(self):
             pass
 
-    monkeypatch.setattr('sys.stdout', MockStdout())
+    monkeypatch.setattr("sys.stdout", MockStdout())
     return output
