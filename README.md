@@ -57,6 +57,8 @@ uv run kth-invenio-migrator --output output.json
 formatting the repo:
 
 ```bash
-uv run ruff check --fix .
-uv run ruff format .
+uv run format
+# this command is replacing the following commands:
+# uv run ruff check --fix .
+# uv run ruff format .
 ```

@@ -21,6 +21,7 @@ dev = [
 
 [project.scripts]
 kth-invenio-migrator = "kth_invenio_migrator.cli:main"
+format = "scripts.ruff_fix_format:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["kth_invenio_migrator"]
