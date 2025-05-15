@@ -15,14 +15,9 @@ def test_main_help():
 
 def test_migrate_command(mocker):
     """Test the migrate command."""
-    # Mock the logger to capture the log messages
-    mock_logger = mocker.patch("invenio_migrator.cli.logging.getLogger")
-    mock_logger_instance = mock_logger.return_value
-
-    # Mock the ZenodoHarvester to control its behavior
-    mock_harvester = mocker.patch("invenio_migrator.cli.ZenodoHarvester")
-    mock_harvester_instance = mock_harvester.return_value
-    mock_harvester_instance.harvest_records.return_value = []
+    # Mock the CliService to control its behavior
+    mock_cli_service = mocker.patch("invenio_migrator.cli.CliService")
+    mock_cli_service_instance = mock_cli_service.return_value
 
     runner = CliRunner()
     result = runner.invoke(main, ["migrate", "--dry-run"])
@@ -30,20 +25,17 @@ def test_migrate_command(mocker):
     # Verify the command executed successfully
     assert result.exit_code == 0
 
-    # Verify the correct log messages were issued
-    mock_logger_instance.info.assert_any_call("Starting harvesting ...")
+    # Verify the CliService was called with correct parameters
+    mock_cli_service_instance.handle_migrate_command.assert_called_once_with(
+        dry_run=True, query=None, output=None
+    )
 
 
 def test_migrate_with_query(mocker):
     """Test migrate command with query parameter."""
-    # Mock the logger
-    mock_logger = mocker.patch("invenio_migrator.cli.logging.getLogger")
-    mock_logger_instance = mock_logger.return_value
-
-    # Mock the ZenodoHarvester
-    mock_harvester = mocker.patch("invenio_migrator.cli.ZenodoHarvester")
-    mock_harvester_instance = mock_harvester.return_value
-    mock_harvester_instance.harvest_records.return_value = []
+    # Mock the CliService
+    mock_cli_service = mocker.patch("invenio_migrator.cli.CliService")
+    mock_cli_service_instance = mock_cli_service.return_value
 
     runner = CliRunner()
     query = "metadata.publication_date:{2025-01-01 TO *}"
@@ -52,23 +44,17 @@ def test_migrate_with_query(mocker):
     # Verify the command executed successfully
     assert result.exit_code == 0
 
-    # Verify logging
-    mock_logger_instance.info.assert_any_call("Starting harvesting ...")
-
-    # Check that the query was passed to harvest_records
-    mock_harvester_instance.harvest_records.assert_called_once_with(query=query)
+    # Verify the CliService was called with correct parameters
+    mock_cli_service_instance.handle_migrate_command.assert_called_once_with(
+        dry_run=True, query=query, output=None
+    )
 
 
 def test_migrate_with_output_file(tmp_path, mocker):
     """Test migrate command with output file."""
-    # Mock file operations
-    mock_open = mocker.patch("pathlib.Path.open", mocker.mock_open())
-
-    # Mock the ZenodoHarvester
-    mock_harvester = mocker.patch("invenio_migrator.cli.ZenodoHarvester")
-    mock_harvester_instance = mock_harvester.return_value
-    sample_record = {"id": 123, "doi": "10.5281/zenodo.123456"}
-    mock_harvester_instance.harvest_records.return_value = [sample_record]
+    # Mock the CliService
+    mock_cli_service = mocker.patch("invenio_migrator.cli.CliService")
+    mock_cli_service_instance = mock_cli_service.return_value
 
     runner = CliRunner()
     output_file = tmp_path / "output.jsonl"
@@ -77,8 +63,10 @@ def test_migrate_with_output_file(tmp_path, mocker):
     # Verify the command executed successfully
     assert result.exit_code == 0
 
-    # Verify file was opened for writing
-    mock_open.assert_called_once_with(mocker.ANY, "a", encoding="utf-8")
+    # Verify the CliService was called with correct parameters
+    mock_cli_service_instance.handle_migrate_command.assert_called_once_with(
+        dry_run=True, query=None, output=str(output_file)
+    )
 
 
 def test_sample_zenodo_record(sample_zenodo_record):
