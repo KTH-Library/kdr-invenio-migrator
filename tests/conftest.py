@@ -42,32 +42,23 @@ def sample_zenodo_record():
                 {
                     "name": "Andrén, Lina J.",
                     "affiliation": "KTH Royal Institute of Technology",
-                    "orcid": "0000-0002-7539-3203"
+                    "orcid": "0000-0002-7539-3203",
                 },
                 {
                     "name": "Vesterlund, Mattias",
                     "affiliation": "KTH Royal Institute of Technology",
-                    "orcid": "0000-0001-9471-6592"
-                }
+                    "orcid": "0000-0001-9471-6592",
+                },
             ],
-            "resource_type": {
-                "title": "Presentation",
-                "type": "presentation"
-            },
-            "license": {
-                "id": "cc-by-4.0"
-            },
-            "communities": [
-                {
-                    "id": "kth"
-                }
-            ]
+            "resource_type": {"title": "Presentation", "type": "presentation"},
+            "license": {"id": "cc-by-4.0"},
+            "communities": [{"id": "kth"}],
         },
         "title": "Find and explore data presentation for KTH Library webinar on May 15th 2025",
         "links": {
             "self": "https://zenodo.org/api/records/15411009",
             "self_html": "https://zenodo.org/records/15411009",
-            "doi": "https://doi.org/10.5281/zenodo.15411009"
+            "doi": "https://doi.org/10.5281/zenodo.15411009",
         },
         "recid": "15411009",
         "files": [
@@ -78,10 +69,10 @@ def sample_zenodo_record():
                 "checksum": "md5:7bf6bbbc35429543fdf07552f73aaceb",
                 "links": {
                     "self": "https://zenodo.org/api/records/15411009/files/Finding_and_exploring_data.pdf/content"
-                }
+                },
             }
         ],
-        "status": "published"
+        "status": "published",
     }
 
 
