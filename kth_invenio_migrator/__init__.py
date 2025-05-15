@@ -1,1 +1,1 @@
-
+"""KTH Invenio Migrator"""
