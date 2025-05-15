@@ -1,6 +1,7 @@
 """Smoke tests for invenio-migrator."""
 
 from click.testing import CliRunner
+
 from invenio_migrator.cli import main
 
 

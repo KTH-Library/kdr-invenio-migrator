@@ -1,5 +1,6 @@
-from .config import CONFIG
 import click
+
+from .config import CONFIG
 
 
 @click.group()

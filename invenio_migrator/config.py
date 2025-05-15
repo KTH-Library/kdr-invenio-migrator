@@ -1,8 +1,7 @@
 """Configuration settings for Invenio Migrator."""
 
-import os
 import logging
-
+import os
 
 CONFIG = {
     # Zenodo settings
