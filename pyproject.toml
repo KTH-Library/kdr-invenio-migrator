@@ -41,7 +41,12 @@ addopts = "--verbose"
 [tool.ruff.lint]
 # see: https://docs.astral.sh/ruff/configuration/
 # 1. Enable flake8-bugbear (`B`) rules, in addition to the defaults.
-select = ["E4", "E7", "E9", "F", "B","I", "E101"]
+# E W: https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
+# F: https://docs.astral.sh/ruff/rules/#pyflakes-f
+# I : https://docs.astral.sh/ruff/rules/#isort-i
+# PTH: https://docs.astral.sh/ruff/rules/#flake8-use-pathlib-pth
+select = ["E","W","F","B","I","PTH"]
+preview = true
 
 # 2. Avoid enforcing line-length violations (`E501`)
 ignore = ["E501"]
