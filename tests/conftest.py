@@ -1,4 +1,4 @@
-"""Pytest fixtures for kth-invenio-migrator tests."""
+"""Pytest fixtures for invenio-migrator tests."""
 
 import os
 import pytest
@@ -11,8 +11,8 @@ def mock_env_variables():
     env_vars = {
         "ZENODO_API_TOKEN": "mock_zenodo_token",
         "ZENODO_COMMUNITY_API_URL": "https://mock.zenodo.org/api/records",
-        "KTH_KDR_API_TOKEN": "mock_kth_token",
-        "KTH_KDR_COMMUNITY_URL": "https://mock.kth.se/api/invenio",
+        "KDR_API_TOKEN": "mock_token",
+        "KDR_COMMUNITY_URL": "https://mock.kth.se/api/invenio",
         "INCLUDE_RECORD_FILES": "false",
     }
 

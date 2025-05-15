@@ -1,20 +1,21 @@
-"""Smoke tests for kth-invenio-migrator."""
+"""Smoke tests for invenio-migrator."""
 
-import io
-from contextlib import redirect_stdout
-
-from kth_invenio_migrator.cli import main
+from click.testing import CliRunner
+from invenio_migrator.cli import main
 
 
-def test_main_function():
-    """Test that the main function prints the expected welcome message."""
-    # Capture stdout
-    captured_output = io.StringIO()
-    with redirect_stdout(captured_output):
-        main()
+def test_main_help():
+    """Test that the main CLI command works and shows help."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["--help"])
+    assert result.exit_code == 0
+    assert "Invenio Migrator CLI" in result.output
 
-    # Get the output value
-    output = captured_output.getvalue().strip()
 
-    # Assert that the output matches what we expect
-    assert output == "Hello from kth-invenio-migrator!"
+def test_migrate_command():
+    """Test the migrate command."""
+    runner = CliRunner()
+    result = runner.invoke(main, ["migrate", "--dry-run"])
+    assert result.exit_code == 0
+    assert "Starting migration" in result.output
+    assert "Dry run enabled" in result.output

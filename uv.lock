@@ -86,19 +86,7 @@ wheels = [
 ]
 
 [[package]]
-name = "inveniordm-py"
-version = "0.1.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "requests" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/36/01/bf0787c40c62d64d32d3b484572d42f218c06417109629a00f930325e351/inveniordm-py-0.1.1.tar.gz", hash = "sha256:f1b61834c6a2236a6079bbc17926645b924ba493279d901ceb8bcf6d53091c95", size = 22850, upload-time = "2024-07-14T10:27:53.19Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/38/77/4fd894baeaf59795f8a79723098b9199d5007a35eeb6099953ebf22c51f7/inveniordm_py-0.1.1-py2.py3-none-any.whl", hash = "sha256:c9c0ebc6dc65953ca326e2162ed452abd1c4def57ef45d93b47205a45b2f0e91", size = 19998, upload-time = "2024-07-14T10:27:51.768Z" },
-]
-
-[[package]]
-name = "kth-invenio-migrator"
+name = "invenio-migrator"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
@@ -126,6 +114,18 @@ requires-dist = [
 dev = [
     { name = "pytest", specifier = ">=8.3.5" },
     { name = "ruff", specifier = ">=0.11.7" },
+]
+
+[[package]]
+name = "inveniordm-py"
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/36/01/bf0787c40c62d64d32d3b484572d42f218c06417109629a00f930325e351/inveniordm-py-0.1.1.tar.gz", hash = "sha256:f1b61834c6a2236a6079bbc17926645b924ba493279d901ceb8bcf6d53091c95", size = 22850, upload-time = "2024-07-14T10:27:53.19Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/38/77/4fd894baeaf59795f8a79723098b9199d5007a35eeb6099953ebf22c51f7/inveniordm_py-0.1.1-py2.py3-none-any.whl", hash = "sha256:c9c0ebc6dc65953ca326e2162ed452abd1c4def57ef45d93b47205a45b2f0e91", size = 19998, upload-time = "2024-07-14T10:27:51.768Z" },
 ]
 
 [[package]]
