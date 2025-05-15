@@ -8,8 +8,6 @@ CONFIG = {
     "ZENODO_API_URL": "https://zenodo.org/api/",
     "ZENODO_COMMUNITY_ID": "kth",  # Replace with your Zenodo community ID
     "ZENODO_API_TOKEN": os.getenv("ZENODO_API_TOKEN"),
-    "START_DATE": os.getenv("START_DATE", "2025-01-01"),
-    "END_DATE": os.getenv("END_DATE", "2025-12-31"),
     # InvenioRDM settings
     "INVENIORDM_API_URL": "https://your-invenio-instance.org/api/",
     "KDR_API_TOKEN": os.getenv("KDR_API_TOKEN"),

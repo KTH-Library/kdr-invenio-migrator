@@ -38,16 +38,9 @@ class ZenodoHarvester:
         date_str = record["metadata"]["publication_date"]
         return datetime.strptime(date_str, "%Y-%m-%d")
 
-    def _is_record_in_date_range(self, record: Dict[str, Any]) -> bool:
-        """Check if record falls within configured date range"""
-        record_date = self._parse_record_date(record)
-        start_date = datetime.strptime(CONFIG["START_DATE"], "%Y-%m-%d")
-        end_date = datetime.strptime(CONFIG["END_DATE"], "%Y-%m-%d")
-        return start_date <= record_date <= end_date
-
-    def harvest_records(self) -> Iterator[Dict[str, Any]]:
+    def harvest_records(self, query: str) -> Iterator[Dict[str, Any]]:
         """Paginate through community records with date filtering"""
-        url = f"{self.base_url}/records"
+        url = f"{self.base_url}/records?q={query}&sort=bestmatch&page=1&size=10"
         params = {
             "communities": self.community_id,
             "size": 100,
@@ -58,11 +51,7 @@ class ZenodoHarvester:
         while True:
             data = self._make_request(url, params)
 
-            for record in data["hits"]["hits"]:
-                if self._is_record_in_date_range(record):
-                    yield record
-                else:
-                    logger.debug("Skipping record %s outside date range", record["id"])
+            yield from data["hits"]["hits"]
 
             if "next" not in data.get("links", {}):
                 break

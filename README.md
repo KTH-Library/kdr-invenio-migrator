@@ -33,23 +33,13 @@ INCLUDE_RECORD_FILES=false
 To run the migration, use the following command:
 
 ```bash
-uv run invenio-migrator
+uv run invenio-migrator migrate -f "metadata.publication_date:{2025-01-01 TO *}" -d
 ```
 This will start the migration process and print the progress to the console.
-You can also specify the number of records to migrate by adding the `--limit` option:
-
-```bash
-uv run invenio-migrator --limit 10
-```
-This will migrate only the first 10 records from Zenodo to KTH Invenio.
-You can also specify the starting record by adding the `--start` option:
-
-```bash
-uv run invenio-migrator --start 100
-```
-This will start the migration from the 100th record in Zenodo.
+Note that the `-f` option is used to filter the records to be migrated. In this case, it will only migrate records with a publication date after January 1, 2025.
 
 You can also specify the output file by adding the `--output` option:
+
 ```bash
 uv run invenio-migrator --output output.json
 ```
