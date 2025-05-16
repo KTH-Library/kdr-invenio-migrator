@@ -26,10 +26,5 @@ CONFIG = {
         "MAX_RECORDS_TO_PROCESS": 2,
         "STOP_ON_ERROR": False,
         "COMPARE_VERSIONS_STRICTLY": False,
-    },
-    "LOGGING": {
-        "LEVEL": logging.INFO,
-        "FILE": "migration.log",
-        "FORMAT": "%(asctime)s - %(levelname)s - %(module)s - %(message)s",
-    },
+    }
 }

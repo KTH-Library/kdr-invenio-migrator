@@ -3,14 +3,13 @@
 import click
 
 from .services import CliService
-from .utils.logger import setup_logging
+from .utils.logger import logger
 
 
 @click.group()
 def main():
     """Invenio Migrator CLI"""
-    setup_logging()
-
+    logger.info("Invenio Migrator CLI started")
 
 @main.command()
 @click.option(

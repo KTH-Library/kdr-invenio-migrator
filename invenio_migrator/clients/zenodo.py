@@ -1,18 +1,17 @@
 """Zenodo API client for harvesting records from a specific community."""
 
-import logging
 import time
-from datetime import datetime
 from typing import Any, Dict, Iterator
 
 import requests
 
-from ..config import CONFIG
+from invenio_migrator.utils.logger import logger
 
-logger = logging.getLogger(__name__)
+from ..config import CONFIG
 
 
 class ZenodoHarvester:
+    """Zenodo API client for harvesting records from a specific community."""
     def __init__(self):
         self.base_url = CONFIG["ZENODO_API_URL"].rstrip("/")
         self.community_id = CONFIG["ZENODO_COMMUNITY_ID"]

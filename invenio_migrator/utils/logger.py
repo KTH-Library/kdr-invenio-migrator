@@ -1,35 +1,35 @@
 """Utils for logging configuration."""
 
 import logging
+import sys
+from pathlib import Path
 
-from ..config import CONFIG
+import colorlog
 
 logger = logging.getLogger("invenio_migrator")
+logger.setLevel(logging.DEBUG)
 
-logging_config = {
-    "level": CONFIG["LOGGING"]["LEVEL"],
-    "format": CONFIG["LOGGING"]["FORMAT"],
-    "handlers": [
-        {
-            "class": "logging.FileHandler",
-            "filename": CONFIG["LOGGING"]["FILE"],
-            "formatter": "default",
-        },
-        {
-            "class": "logging.StreamHandler",
-            "formatter": "default",
-        },
-    ],
-}
+stdout_handler = logging.StreamHandler(sys.stdout)
+stdout_handler.setLevel(logging.INFO)
+stdout_formatter = colorlog.ColoredFormatter(
+    "%(log_color)s%(asctime)s : %(message)s",
+    log_colors={
+        "DEBUG": "white",
+        "INFO": "cyan",
+        "WARNING": "yellow",
+        "ERROR": "red",
+        "CRITICAL": "bold_red",
+    },
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+stdout_handler.setFormatter(stdout_formatter)
 
+file_handler = logging.FileHandler(f"{Path.cwd()}/migrator_logs.log")
+file_handler.setLevel(logging.DEBUG)
+file_formatter = logging.Formatter(
+    "%(asctime)s - %(levelname)s : %(message)s\n", "%Y-%m-%d %H:%M:%S"
+)
+file_handler.setFormatter(file_formatter)
 
-def setup_logging():
-    """Configure logging based on config"""
-    logging.basicConfig(
-        level=CONFIG["LOGGING"]["LEVEL"],
-        format=CONFIG["LOGGING"]["FORMAT"],
-        handlers=[
-            logging.FileHandler(CONFIG["LOGGING"]["FILE"]),
-            logging.StreamHandler(),
-        ],
-    )
+logger.addHandler(stdout_handler)
+logger.addHandler(file_handler)
