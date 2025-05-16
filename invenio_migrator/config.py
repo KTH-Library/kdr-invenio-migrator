@@ -1,6 +1,5 @@
 """Configuration settings for Invenio Migrator."""
 
-import logging
 import os
 
 CONFIG = {
@@ -26,5 +25,5 @@ CONFIG = {
         "MAX_RECORDS_TO_PROCESS": 2,
         "STOP_ON_ERROR": False,
         "COMPARE_VERSIONS_STRICTLY": False,
-    }
+    },
 }

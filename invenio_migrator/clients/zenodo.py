@@ -12,6 +12,7 @@ from ..config import CONFIG
 
 class ZenodoHarvester:
     """Zenodo API client for harvesting records from a specific community."""
+
     def __init__(self):
         self.base_url = CONFIG["ZENODO_API_URL"].rstrip("/")
         self.community_id = CONFIG["ZENODO_COMMUNITY_ID"]

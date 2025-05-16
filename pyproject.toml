@@ -24,7 +24,7 @@ dev = [
 ]
 
 [project.scripts]
-invenio-migrator = "invenio_migrator.cli:main"
+invenio-migrator = "invenio_migrator.cli:migrator"
 format = "scripts.ruff_fix_format:main"
 
 [tool.hatch.build.targets.wheel]

@@ -7,11 +7,15 @@ from .utils.logger import logger
 
 
 @click.group()
-def main():
-    """Invenio Migrator CLI"""
+@click.version_option()
+def migrator():
+    """Invenio Migrator CLI
+    this CLI is used to migrate records from Zenodo to InvenioRDM instance.
+    """
     logger.info("Invenio Migrator CLI started")
 
-@main.command()
+
+@migrator.command()
 @click.option(
     "--dry-run", "-d", is_flag=True, help="fetch records without submitting to KDR"
 )
@@ -35,4 +39,4 @@ def migrate(dry_run, query, output):
 
 
 if __name__ == "__main__":
-    main()
+    migrator()
