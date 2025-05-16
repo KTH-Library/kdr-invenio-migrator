@@ -2,13 +2,13 @@
 
 from click.testing import CliRunner
 
-from invenio_migrator.cli import main
+from invenio_migrator.cli import migrator
 
 
 def test_main_help():
     """Test that the main CLI command works and shows help."""
     runner = CliRunner()
-    result = runner.invoke(main, ["--help"])
+    result = runner.invoke(migrator, ["--help"])
     assert result.exit_code == 0
     assert "Invenio Migrator CLI" in result.output
 
@@ -20,7 +20,7 @@ def test_migrate_command(mocker):
     mock_cli_service_instance = mock_cli_service.return_value
 
     runner = CliRunner()
-    result = runner.invoke(main, ["migrate", "--dry-run"])
+    result = runner.invoke(migrator, ["migrate", "--dry-run"])
 
     # Verify the command executed successfully
     assert result.exit_code == 0
@@ -39,7 +39,7 @@ def test_migrate_with_query(mocker):
 
     runner = CliRunner()
     query = "metadata.publication_date:{2025-01-01 TO *}"
-    result = runner.invoke(main, ["migrate", "--dry-run", "--query", query])
+    result = runner.invoke(migrator, ["migrate", "--dry-run", "--query", query])
 
     # Verify the command executed successfully
     assert result.exit_code == 0
@@ -58,7 +58,7 @@ def test_migrate_with_output_file(tmp_path, mocker):
 
     runner = CliRunner()
     output_file = tmp_path / "output.jsonl"
-    result = runner.invoke(main, ["migrate", "--dry-run", "--output", str(output_file)])
+    result = runner.invoke(migrator, ["migrate", "--dry-run", "--output", str(output_file)])
 
     # Verify the command executed successfully
     assert result.exit_code == 0
