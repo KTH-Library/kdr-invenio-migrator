@@ -38,6 +38,10 @@ class MigrationService:
             self.logger.info("Starting harvesting ...")
 
             for record in self.harvester.harvest_records(query=query):
+                self.logger.info("Fetched record: %s, %s", record["doi"], record["id"])
+                if not record:
+                    self.logger.warning("No records found for query: %s", query)
+                    continue
                 self._process_record(record, dry_run, output)
 
         except Exception as e:

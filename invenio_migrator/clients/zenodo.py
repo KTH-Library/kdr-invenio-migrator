@@ -33,11 +33,6 @@ class ZenodoHarvester:
             logger.error("Request failed: %s", str(e))
             raise
 
-    def _parse_record_date(self, record: Dict[str, Any]) -> datetime:
-        """Parse publication date from Zenodo record"""
-        date_str = record["metadata"]["publication_date"]
-        return datetime.strptime(date_str, "%Y-%m-%d")
-
     def harvest_records(self, query: str) -> Iterator[Dict[str, Any]]:
         """Paginate through community records with date filtering"""
         # TODO: fix query to be more flexible
