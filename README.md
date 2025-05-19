@@ -47,3 +47,10 @@ uv run format
 # uv run ruff check --fix .
 # uv run ruff format .
 ```
+
+## Testing
+To run the tests, use the following command:
+
+```bash
+uv run pytest tests
+```
