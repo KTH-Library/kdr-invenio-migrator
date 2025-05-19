@@ -24,7 +24,8 @@ class SourceClient:
         Args:
             query: Optional query string to filter results.
         """
-        client = InvenioAPI("https://zenodo.org/api/communities/kth/", self.api_token)
+        client = InvenioAPI(
+            "https://zenodo.org/api/communities/kth/", self.api_token, verify=False)
         r = client.records.search(query)
         # Implement the logic to fetch records from the source
         logger.info("Fetching records")
