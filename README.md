@@ -33,16 +33,11 @@ INCLUDE_RECORD_FILES=false
 To run the migration, use the following command:
 
 ```bash
-uv run invenio-migrator migrate -f "metadata.publication_date:{2025-01-01 TO *}" -d
+uv run invenio-migrator migrate -q "metadata.publication_date:{2025-01-01 TO *}" -d
 ```
 This will start the migration process and print the progress to the console.
-Note that the `-f` option is used to filter the records to be migrated. In this case, it will only migrate records with a publication date after January 1, 2025.
+Note that the `-q` option is used to query the records to be migrated. In this case, it will only migrate records with a publication date after January 1, 2025.
 
-You can also specify the output file by adding the `--output` option:
-
-```bash
-uv run invenio-migrator --output output.json
-```
 
 formatting the repo:
 
