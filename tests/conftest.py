@@ -10,8 +10,8 @@ import pytest
 def mock_env_variables():
     """Fixture to provide mocked environment variables."""
     env_vars = {
-        "ZENODO_API_TOKEN": "mock_zenodo_token",
-        "ZENODO_COMMUNITY_API_URL": "https://mock.zenodo.org/api/records",
+        "SOURCE_API_TOKEN": "mock_zenodo_token",
+        "SOURCE_COMMUNITY_API_URL": "https://mock.zenodo.org/api/records",
         "KDR_API_TOKEN": "mock_token",
         "KDR_COMMUNITY_URL": "https://mock.kth.se/api/invenio",
         "INCLUDE_RECORD_FILES": "false",

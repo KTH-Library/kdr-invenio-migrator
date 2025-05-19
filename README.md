@@ -18,9 +18,9 @@ run `cp .env.example .env` file in the root directory of the project and add the
 
 ```toml
 # Zenodo API token
-ZENODO_API_TOKEN=your_zenodo_api_token
+SOURCE_API_TOKEN=your_zenodo_api_token
 # Zenodo COMMUNITY API URL
-ZENODO_COMMUNITY_API_URL=https://zenodo.org/api/records
+SOURCE_COMMUNITY_API_URL=https://zenodo.org/api/records
 # KDR API token
 KDR_API_TOKEN=your_kdr_api_token
 # KDR API URL

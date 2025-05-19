@@ -36,9 +36,5 @@ class CliService:
         )
 
         # Delegate to the migration service
-        self.migration_service.process_records(
-            dry_run=dry_run, query=query, output=output
-        )
-        self.migration_service.process_records(
-            dry_run=dry_run, query=query, output=output
-        )
+        self.migration_service.process_records(dry_run=dry_run, query=query)
+        self.migration_service.process_records(dry_run=dry_run, query=query)

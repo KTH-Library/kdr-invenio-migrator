@@ -4,15 +4,15 @@ import os
 
 CONFIG = {
     # Zenodo settings
-    "ZENODO_API_URL": "https://zenodo.org/api/",
-    "ZENODO_COMMUNITY_ID": "kth",  # Replace with your Zenodo community ID
-    "ZENODO_API_TOKEN": os.getenv("ZENODO_API_TOKEN"),
+    "SOURCE_BASE_URL": "https://zenodo.org/api/",
+    "SOURCE_COMMUNITY_ID": "kth",  # Replace with your Zenodo community ID
+    "SOURCE_API_TOKEN": os.getenv("SOURCE_API_TOKEN"),
     # InvenioRDM settings
-    "INVENIORDM_API_URL": "https://your-invenio-instance.org/api/",
-    "KDR_API_TOKEN": os.getenv("KDR_API_TOKEN"),
+    "TARGET_BASE_URL": "https://your-invenio-instance.org/api/",
+    "TARGET_API_TOKEN": os.getenv("TARGET_API_TOKEN"),
     "INVENIORDM_COMMUNITY_ID": "target-community-id",
     "RATE_LIMITS": {
-        "ZENODO_REQUEST_DELAY_SECONDS": 2,
+        "SOURCE_REQUEST_DELAY_SECONDS": 2,
         "INVENIORDM_REQUEST_DELAY_SECONDS": 1,
     },
     "FILE_HANDLING": {

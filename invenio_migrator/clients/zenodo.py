@@ -14,10 +14,10 @@ class ZenodoHarvester:
     """Zenodo API client for harvesting records from a specific community."""
 
     def __init__(self):
-        self.base_url = CONFIG["ZENODO_API_URL"].rstrip("/")
-        self.community_id = CONFIG["ZENODO_COMMUNITY_ID"]
-        self.token = CONFIG["ZENODO_API_TOKEN"]
-        self.request_delay = CONFIG["RATE_LIMITS"]["ZENODO_REQUEST_DELAY_SECONDS"]
+        self.base_url = CONFIG["SOURCE_BASE_URL"].rstrip("/")
+        self.community_id = CONFIG["SOURCE_COMMUNITY_ID"]
+        self.token = CONFIG["SOURCE_API_TOKEN"]
+        self.request_delay = CONFIG["RATE_LIMITS"]["SOURCE_REQUEST_DELAY_SECONDS"]
 
     def _make_request(self, url: str, params: Dict[str, Any] = None) -> Dict[str, Any]:
         """Generic request handler with rate limiting and retries"""
