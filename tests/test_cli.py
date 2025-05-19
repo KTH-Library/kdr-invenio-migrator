@@ -58,7 +58,9 @@ def test_migrate_with_output_file(tmp_path, mocker):
 
     runner = CliRunner()
     output_file = tmp_path / "output.jsonl"
-    result = runner.invoke(migrator, ["migrate", "--dry-run", "--output", str(output_file)])
+    result = runner.invoke(
+        migrator, ["migrate", "--dry-run", "--output", str(output_file)]
+    )
 
     # Verify the command executed successfully
     assert result.exit_code == 0
