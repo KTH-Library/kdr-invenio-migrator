@@ -26,7 +26,14 @@ class ZenodoHarvester:
         headers = {"Authorization": f"Bearer {self.token}"} if self.token else {}
 
         try:
-            response = requests.get(url, params=params, headers=headers, timeout=30)
+            response = requests.get(
+                url,
+                allow_redirects=True,
+                headers=headers,
+                params=params,
+                verify=False,
+                timeout=30,
+            )
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
