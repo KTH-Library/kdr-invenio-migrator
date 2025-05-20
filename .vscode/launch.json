@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+        "name": "Debug invenio-migrator",
+        "type": "debugpy",
+        "request": "launch",
+        "module": "invenio_migrator.cli",
+        "args": [
+            "migrate",
+            "-q",
+            "metadata.publication_date:{2025-01-01 TO *}",
+        ]
+        }
+    ]
+}

@@ -14,14 +14,14 @@
     "python.analysis.inlayHints.functionReturnTypes": true,
     "python.analysis.typeCheckingMode": "off",
     "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+    "python.analysis.ignore": ["/usr/local/lib/**/*", "~/.pyenv/**/*"],
+    "python.analysis.exclude": [
+        "**/.pyenv/**",
+        "**/usr/local/lib/**",
+        "**/.venv/**",
+    ],
     "cSpell.words": [
         "Invenio",
         "Zenodo"
     ],
-    "python.analysis.ignore": ["/usr/local/lib/**/*", "~/.pyenv/**/*"],
-    "python.analysis.exclude": [
-    "**/.pyenv/**",
-    "**/usr/local/lib/**",
-    "**/.venv/**",
-    ]
 }
