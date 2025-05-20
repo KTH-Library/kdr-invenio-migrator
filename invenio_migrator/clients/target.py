@@ -1,15 +1,16 @@
 from typing import Optional
 
-from ..clients import InvenioAPI
+from inveniordm_py.client import InvenioAPI
+
 from ..config import CONFIG
 from ..utils.logger import logger
 
 
-class SourceClient:
-    """Client for handling source records."""
+class TargetClient:
+    """Client for handling target records."""
 
     def __init__(self):
-        """Initialize the source client with configuration."""
+        """Initialize the target client with configuration."""
         self.source = CONFIG["SOURCE_BASE_URL"]
         self.community_id = CONFIG["SOURCE_COMMUNITY_ID"]
         self.api_token = CONFIG["SOURCE_API_TOKEN"]
@@ -18,15 +19,13 @@ class SourceClient:
 
     def fetch_records(self, query: Optional[str] = None) -> None:
         """
-        Fetch records from the source.
+        Fetch records from the target.
 
         Args:
             query: Optional query string to filter results.
         """
-        client = InvenioAPI(
-            "https://zenodo.org/api/communities/kth/", self.api_token, verify=False
-        )
+        client = InvenioAPI("https://127.0.0.1:5000/api/", self.api_token, verify=False)
         r = client.records.search(query)
-        # Implement the logic to fetch records from the source
+        # Implement the logic to fetch records from the target
         logger.info("Fetching records")
         logger.info(dict(r))

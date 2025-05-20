@@ -4,13 +4,14 @@ import os
 
 CONFIG = {
     # Zenodo settings
-    "SOURCE_BASE_URL": "https://zenodo.org/api/",
+    "SOURCE_BASE_URL": "https://zenodo.org/api",
     "SOURCE_COMMUNITY_ID": "kth",  # Replace with your Zenodo community ID
     "SOURCE_API_TOKEN": os.getenv("SOURCE_API_TOKEN"),
     # InvenioRDM settings
-    "TARGET_BASE_URL": "https://your-invenio-instance.org/api/",
+    "TARGET_BASE_URL": "https://127.0.0.1:5000/api",
     "TARGET_API_TOKEN": os.getenv("TARGET_API_TOKEN"),
-    "INVENIORDM_COMMUNITY_ID": "target-community-id",
+    # "INVENIORDM_COMMUNITY_ID": "c9caea1c-c355-40d0-b285-9ebc797835ff",
+    "INVENIORDM_COMMUNITY_ID": "kth-community-on-zenodo",
     "RATE_LIMITS": {
         "SOURCE_REQUEST_DELAY_SECONDS": 2,
         "INVENIORDM_REQUEST_DELAY_SECONDS": 1,
@@ -22,8 +23,6 @@ CONFIG = {
     },
     "MIGRATION_OPTIONS": {
         "DRY_RUN": False,
-        "MAX_RECORDS_TO_PROCESS": 2,
         "STOP_ON_ERROR": False,
-        "COMPARE_VERSIONS_STRICTLY": False,
     },
 }
