@@ -34,6 +34,7 @@ def migrator():
 def migrate(dry_run, query, output):
     """Fetch records from Zenodo community"""
     # Use the CLI service to handle the migrate command
+    click.echo("Fetching records from Zenodo community...", color="green")
     cli_service = CliService()
     cli_service.handle_migrate_command(dry_run=dry_run, query=query, output=output)
 

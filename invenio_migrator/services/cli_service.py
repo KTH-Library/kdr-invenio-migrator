@@ -1,8 +1,8 @@
 """CLI Service for handling command-line operations."""
 
-import logging
 from typing import Optional
 
+from ..utils.logger import logger
 from .migration import MigrationService
 
 
@@ -11,7 +11,7 @@ class CliService:
 
     def __init__(self):
         """Initialize the CLI service."""
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger
         self.migration_service = MigrationService()
 
     def handle_migrate_command(
@@ -36,5 +36,4 @@ class CliService:
         )
 
         # Delegate to the migration service
-        self.migration_service.process_records(dry_run=dry_run, query=query)
         self.migration_service.process_records(dry_run=dry_run, query=query)

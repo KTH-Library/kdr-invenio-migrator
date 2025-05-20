@@ -5,9 +5,8 @@ from typing import Any, Dict, Iterator
 
 import requests
 
-from invenio_migrator.utils.logger import logger
-
 from ..config import CONFIG
+from ..utils.logger import logger
 
 
 class ZenodoHarvester:

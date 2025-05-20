@@ -3,10 +3,9 @@
 import json
 from typing import Any, Dict, Optional
 
-from invenio_migrator.utils.logger import logger
-
 from ..clients.zenodo import ZenodoHarvester
 from ..config import CONFIG
+from ..utils.logger import logger
 
 
 class MigrationService:

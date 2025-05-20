@@ -1,9 +1,8 @@
 from typing import Optional
 
-from inveniordm_py.client import InvenioAPI
-
-from invenio_migrator.config import CONFIG
-from invenio_migrator.utils.logger import logger
+from ..clients import InvenioAPI
+from ..config import CONFIG
+from ..utils.logger import logger
 
 
 class SourceClient:
@@ -25,7 +24,8 @@ class SourceClient:
             query: Optional query string to filter results.
         """
         client = InvenioAPI(
-            "https://zenodo.org/api/communities/kth/", self.api_token, verify=False)
+            "https://zenodo.org/api/communities/kth/", self.api_token, verify=False
+        )
         r = client.records.search(query)
         # Implement the logic to fetch records from the source
         logger.info("Fetching records")
