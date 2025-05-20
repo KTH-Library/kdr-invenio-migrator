@@ -18,4 +18,10 @@
         "Invenio",
         "Zenodo"
     ],
+    "python.analysis.ignore": ["/usr/local/lib/**/*", "~/.pyenv/**/*"],
+    "python.analysis.exclude": [
+    "**/.pyenv/**",
+    "**/usr/local/lib/**",
+    "**/.venv/**",
+    ]
 }
