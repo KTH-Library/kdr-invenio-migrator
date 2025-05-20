@@ -31,12 +31,20 @@ def migrator():
     help="output file to save the harvested records",
     type=click.Path(exists=False),
 )
-def migrate(dry_run, query, output):
+@click.option(
+    "--include-files",
+    "-f",
+    is_flag=True,
+    help="include files in the harvested records",
+)
+def migrate(dry_run, query, output, include_files):
     """Fetch records from Zenodo community"""
     # Use the CLI service to handle the migrate command
     click.echo("Fetching records from Zenodo community...", color="green")
     cli_service = CliService()
-    cli_service.handle_migrate_command(dry_run=dry_run, query=query, output=output)
+    cli_service.handle_migrate_command(
+        dry_run=dry_run, query=query, output=output, include_files=include_files
+    )
 
 
 if __name__ == "__main__":

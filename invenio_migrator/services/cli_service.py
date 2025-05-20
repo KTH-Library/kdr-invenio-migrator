@@ -19,6 +19,8 @@ class CliService:
         dry_run: bool = False,
         query: Optional[str] = None,
         output: Optional[str] = None,
+        include_files: bool = False,
+        **kwargs: Optional[dict],
     ) -> None:
         """
         Handle the migrate command from CLI.
@@ -36,4 +38,6 @@ class CliService:
         )
 
         # Delegate to the migration service
-        self.migration_service.process_records(dry_run=dry_run, query=query)
+        self.migration_service.process_records(
+            dry_run=dry_run, query=query, include_files=include_files, **kwargs
+        )

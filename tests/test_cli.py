@@ -27,7 +27,7 @@ def test_migrate_command(mocker):
 
     # Verify the CliService was called with correct parameters
     mock_cli_service_instance.handle_migrate_command.assert_called_once_with(
-        dry_run=True, query=None, output=None
+        dry_run=True, query=None, output=None, include_files=False
     )
 
 
@@ -46,7 +46,7 @@ def test_migrate_with_query(mocker):
 
     # Verify the CliService was called with correct parameters
     mock_cli_service_instance.handle_migrate_command.assert_called_once_with(
-        dry_run=True, query=query, output=None
+        dry_run=True, query=query, output=None, include_files=False
     )
 
 
@@ -59,7 +59,8 @@ def test_migrate_with_output_file(tmp_path, mocker):
     runner = CliRunner()
     output_file = tmp_path / "output.jsonl"
     result = runner.invoke(
-        migrator, ["migrate", "--dry-run", "--output", str(output_file)]
+        migrator,
+        ["migrate", "--dry-run", "--output", str(output_file), "--include-files"],
     )
 
     # Verify the command executed successfully
@@ -67,7 +68,7 @@ def test_migrate_with_output_file(tmp_path, mocker):
 
     # Verify the CliService was called with correct parameters
     mock_cli_service_instance.handle_migrate_command.assert_called_once_with(
-        dry_run=True, query=None, output=str(output_file)
+        dry_run=True, query=None, output=str(output_file), include_files=True
     )
 
 

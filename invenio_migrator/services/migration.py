@@ -3,6 +3,7 @@
 import json
 from typing import Any, Dict, Optional
 
+from ..clients.target import TargetClient
 from ..clients.zenodo import ZenodoHarvester
 from ..config import CONFIG
 from ..utils.logger import logger
@@ -15,11 +16,13 @@ class MigrationService:
         """Initialize the migration service."""
         self.logger = logger
         self.harvester = ZenodoHarvester()
+        self.target_client = TargetClient()
 
     def process_records(
         self,
         dry_run: bool = False,
         query: Optional[str] = None,
+        include_files: bool = False,
     ) -> None:
         """
         Process records from Zenodo based on the provided parameters.
@@ -35,19 +38,27 @@ class MigrationService:
         try:
             self.logger.info("Starting harvesting ...")
 
-            for record in self.harvester.harvest_records(query=query):
-                self.logger.info("Fetched record: %s, %s", record["doi"], record["id"])
+            response = self.harvester.harvest_records(query=query)
+
+            if not response:
+                self.logger.warning("No records found for query: %s", query)
+                return
+
+            for record in response:
                 if not record:
                     self.logger.warning("No records found for query: %s", query)
-                    continue
-                self._process_record(record, dry_run)
+                    return
+                mapped_record = self._process_record(
+                    record, dry_run, include_files=include_files
+                )
+                draft = self.target_client.create_record(mapped_record)
 
         except Exception as e:
             self.logger.error("Harvest failed: %s", str(e))
-            if CONFIG["MIGRATION_OPTIONS"]["STOP_ON_ERROR"]:
-                raise
 
-    def _process_record(self, record: Dict[str, Any], dry_run: bool) -> None:
+    def _process_record(
+        self, record: Dict[str, Any], dry_run: bool, include_files: bool
+    ) -> None:
         """
         Process a single record.
 
@@ -67,5 +78,75 @@ class MigrationService:
             self.logger.info(json.dumps(record, indent=2))
             return
 
-        # TODO: Add processing logic here
-        self.logger.info("Fetched record %s", record["doi"])
+        self.map_source_to_target(record, include_files=include_files)
+        self.tar
+
+        self.logger.info("Record processed successfully.")
+
+    def map_source_to_target(self, record: Dict[str, Any], include_files: bool) -> None:
+        """
+        Map the source record to the target format.
+
+
+        Args:
+            record: The record to map.
+        """
+        meta = record["metadata"]
+
+        # Map creators to InvenioRDM format
+        creators = []
+        for c in meta.get("creators", []):
+            creator = {
+                "person_or_org": {
+                    "type": "personal",
+                    "name": c.get("name"),
+                    "family_name": c.get("name").split(",")[0]
+                    if "," in c.get("name", "")
+                    else None,
+                    "given_name": c.get("name").split(",")[1].strip()
+                    if "," in c.get("name", "")
+                    else None,
+                }
+            }
+            # ORCID if present
+            if "orcid" in c:
+                creator["person_or_org"]["identifiers"] = [
+                    {"identifier": c["orcid"], "scheme": "orcid"}
+                ]
+            # Affiliation if present
+            if c.get("affiliation"):
+                creator["affiliations"] = [{"name": c["affiliation"]}]
+            creators.append(creator)
+
+        # Map subjects/keywords
+        subjects = [{"subject": kw} for kw in meta.get("keywords", [])]
+
+        # Map resource_type
+        resource_type_id = "dataset"  # fallback
+        if "resource_type" in meta:
+            if meta["resource_type"].get("type") == "dataset":
+                resource_type_id = "dataset"
+            elif meta["resource_type"].get("type") == "publication-article":
+                resource_type_id = "publication-article"
+            # Add more mappings as needed
+
+        # Map license
+        license_id = meta.get("license", {}).get("id", "cc-by-4.0")
+
+        # Compose InvenioRDM record
+        invenio_record = {
+            "access": {"record": "public", "files": "public"},
+            "files": {"enabled": include_files},
+            "metadata": {
+                "title": meta.get("title"),
+                "resource_type": {"id": resource_type_id},
+                "description": meta.get("description"),
+                "creators": creators,
+                "publication_date": meta.get("publication_date"),
+                "subjects": subjects,
+                "rights": [{"id": license_id}],
+            },
+            "type": "community-submission",  # Change if needed
+        }
+
+        return invenio_record
