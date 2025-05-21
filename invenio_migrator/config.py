@@ -2,6 +2,10 @@
 
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 CONFIG = {
     # Zenodo settings
     "SOURCE_BASE_URL": "https://zenodo.org/api",
