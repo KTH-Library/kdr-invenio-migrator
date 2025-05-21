@@ -42,6 +42,8 @@ class ZenodoHarvester:
     def harvest_records(self, query: str) -> Iterator[Dict[str, Any]]:
         """Paginate through community records with date filtering"""
         # TODO: fix query to be more flexible
+        if not query:
+            query = "*"
         url = f"{self.base_url}/records?q={query}&sort=bestmatch&page=1&size=10"
         params = {
             "communities": self.community_id,
