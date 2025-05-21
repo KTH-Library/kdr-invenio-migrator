@@ -1,31 +1,34 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from inveniordm_py.client import InvenioAPI
+from inveniordm_py.records.metadata import DraftMetadata
+from requests import Session
 
 from ..config import CONFIG
 from ..utils.logger import logger
 
 
 class TargetClient:
-    """Client for handling target records."""
+    """Client for interacting with InvenioRDM instance using inveniordm-py."""
 
     def __init__(self):
-        """Initialize the target client with configuration."""
-        self.source = CONFIG["SOURCE_BASE_URL"]
-        self.community_id = CONFIG["SOURCE_COMMUNITY_ID"]
-        self.api_token = CONFIG["SOURCE_API_TOKEN"]
-        self.dry_run = CONFIG["MIGRATION_OPTIONS"]["DRY_RUN"]
-        self.request_delay = CONFIG["RATE_LIMITS"]["SOURCE_REQUEST_DELAY_SECONDS"]
+        session = Session()
+        session.verify = False  # Only for testing!
+        self.client = InvenioAPI(
+            base_url=CONFIG["TARGET_BASE_URL"],
+            access_token=CONFIG["TARGET_API_TOKEN"],
+            session=session,
+        )
+        self.records = self.client.records  # Access RecordList resource
 
-    def fetch_records(self, query: Optional[str] = None) -> None:
-        """
-        Fetch records from the target.
-
-        Args:
-            query: Optional query string to filter results.
-        """
-        client = InvenioAPI("https://127.0.0.1:5000/api/", self.api_token, verify=False)
-        r = client.records.search(query)
-        # Implement the logic to fetch records from the target
-        logger.info("Fetching records")
-        logger.info(dict(r))
+    def create_draft(self, record_data: Dict[str, Any]) -> Optional[Dict]:
+        """Create a new draft record using proper inveniordm-py workflow."""
+        try:
+            # Use RecordList.create() with DraftMetadata as per client design
+            draft_resource = self.records.create(data=DraftMetadata(**record_data))
+            logger.info(f"Created draft ID: {draft_resource._data['id']}")
+            return draft_resource
+        except Exception as e:
+            logger.error(f"Bad Draft: {str(draft_resource)}")
+            logger.error(f"Draft creation failed: {str(e)}")
+            raise
