@@ -135,7 +135,7 @@ class RecordMapper:
         creators = [self.map_creator(c) for c in meta.get("creators", [])]
         subjects = self.map_subjects(meta.get("keywords", []))
         resource_type_id = self.map_resource_type(meta.get("resource_type", {}))
-        license_id = self.map_license(meta.get("license", {}))
+        # license_id = self.map_license(meta.get("license", {}))
         invenio_record = {
             "access": {"record": "public", "files": "public"},
             "files": {"enabled": include_files},
@@ -146,7 +146,7 @@ class RecordMapper:
                 "creators": creators,
                 "publication_date": meta.get("publication_date"),
                 "subjects": subjects,
-                "rights": [{"id": license_id}],
+                # "rights": [{"id": license_id}],
             },
             "type": "community-submission",  # Change if needed
         }
