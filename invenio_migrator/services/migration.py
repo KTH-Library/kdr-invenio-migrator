@@ -89,6 +89,7 @@ class RecordMapper:
         # Affiliation if present
         if creator.get("affiliation"):
             mapped_creator["affiliations"] = [{"name": creator["affiliation"]}]
+
         return mapped_creator
 
     def map_subjects(self, keywords: list) -> list:
@@ -123,6 +124,47 @@ class RecordMapper:
         """
         return license_info.get("id", "cc-by-4.0")
 
+    def map_related_identifiers(self, doi: str, metadata: Dict[str, Any]) -> list:
+        """
+        Map related identifiers using the record DOI and existing metadata.
+
+        Args:
+            doi: The DOI of the source record.
+            metadata: The metadata dictionary from the source record.
+        """
+        if not doi:
+            raise ValueError("DOI is required to map related_identifiers")
+        # see ids: https://github.com/inveniosoftware/invenio-rdm-records/blob/v10.9.2/invenio_rdm_records/fixtures/data/vocabularies/relation_types.yaml
+        related = [
+            {
+                "scheme": "doi",
+                "identifier": doi,
+                "relation_type": {
+                    "id": "isderivedfrom",
+                    "title": {"en": "Is derived from"},
+                },
+                "resource_type": {"id": "publication", "title": {"en": "Publication"}},
+            }
+        ]
+
+        # Normalize any existing related_identifiers from the Zenodo metadata
+        existing = metadata.get("related_identifiers", [])
+        for item in existing:
+            # Make sure structure matches expected format
+            if isinstance(item.get("relation_type"), str):
+                item["relation_type"] = {
+                    "id": item["relation_type"],
+                    "title": {"en": item["relation_type"]},
+                }
+            if isinstance(item.get("resource_type"), str):
+                item["resource_type"] = {
+                    "id": item["resource_type"],
+                    "title": {"en": item["resource_type"]},
+                }
+            related.append(item)
+
+        return related
+
     def map_record(self, record: Dict[str, Any], include_files: bool) -> Dict:
         """
         Map the source record to the target format.
@@ -135,6 +177,7 @@ class RecordMapper:
         creators = [self.map_creator(c) for c in meta.get("creators", [])]
         subjects = self.map_subjects(meta.get("keywords", []))
         resource_type_id = self.map_resource_type(meta.get("resource_type", {}))
+        related_identifiers = self.map_related_identifiers(record.get("doi"), meta)
         # license_id = self.map_license(meta.get("license", {}))
         invenio_record = {
             "access": {"record": "public", "files": "public"},
@@ -147,6 +190,7 @@ class RecordMapper:
                 "publication_date": meta.get("publication_date"),
                 "subjects": subjects,
                 # "rights": [{"id": license_id}],
+                "related_identifiers": related_identifiers,
             },
             "type": "community-submission",  # Change if needed
         }
