@@ -4,7 +4,6 @@ from typing import Any, Dict, Optional
 
 from ..clients.target import TargetClient
 from ..clients.zenodo import ZenodoHarvester
-from ..config import CONFIG
 from ..utils.logger import logger
 
 
@@ -31,9 +30,6 @@ class MigrationService:
             dry_run: If True, fetches records without submitting to KDR.
             query: Optional query string to filter results.
         """
-        # Update config with parameters
-        if not dry_run:
-            dry_run = CONFIG["MIGRATION_OPTIONS"]["DRY_RUN"]
 
         try:
             self.logger.info("Starting harvesting ...")
@@ -49,6 +45,8 @@ class MigrationService:
                     self.logger.warning("No records found for query: %s", query)
                     return
 
+                if dry_run:
+                    self.logger.warning("Dry run mode: %s", record)
                 draft = self.record_mapper.map_record(
                     record, include_files=include_files
                 )
@@ -122,6 +120,8 @@ class RecordMapper:
         Args:
             license_info: The license dictionary from the source record.
         """
+        # TODO: need to check if license id is valid
+        # got some errors with license ids
         return license_info.get("id", "cc-by-4.0")
 
     def map_related_identifiers(self, doi: str, metadata: Dict[str, Any]) -> list:
