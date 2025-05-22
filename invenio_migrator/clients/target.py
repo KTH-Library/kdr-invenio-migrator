@@ -29,6 +29,6 @@ class TargetClient:
             logger.info(f"Created draft ID: {draft_resource._data['id']}")
             return draft_resource
         except Exception as e:
+            logger.error(f"Draft creation failed: {e.response.json()}")
             logger.error(f"Bad Draft: {str(draft_resource)}")
-            logger.error(f"Draft creation failed: {str(e)}")
             raise
