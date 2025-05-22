@@ -26,7 +26,6 @@ class TargetClient:
         try:
             # Use RecordList.create() with DraftMetadata as per client design
             draft_resource = self.records.create(data=DraftMetadata(**record_data))
-            logger.info(f"Created draft ID: {draft_resource._data['id']}")
             return draft_resource
         except Exception as e:
             logger.error(f"Draft creation failed with response: {e.response.json()}")

@@ -42,11 +42,13 @@ class MigrationService:
                 return
 
             try:
-                draft = self.record_mapper.map_record(
+                draft_body = self.record_mapper.map_record(
                     record, include_files=include_files
                 )
-                self.target_client.create_draft(draft)
-                self.logger.info("Draft processed: %s", draft["title"])
+                draft = self.target_client.create_draft(draft_body)
+                self.logger.info("Draft created: %s", draft.data._data["id"])
+                self.logger.debug("Draft body: %s", draft)
+                return draft
             except Exception as e:
                 self.logger.warning("Draft creation failed: %s", e)
                 if stop_on_error:
@@ -162,6 +164,19 @@ class RecordMapper:
 
         return related
 
+    def map_pids(self, record: Dict[str, Any]) -> Optional[Dict]:
+        """
+        Map the PID from the source record to the target format.
+
+        Args:
+            record: The record to map.
+        """
+        if not record.get("doi"):
+            raise ValueError("DOI is required to map PIDs")
+        doi = {"doi": {"identifier": record["doi"], "provider": "external"}}
+
+        return doi
+
     def map_record(self, record: Dict[str, Any], include_files: bool) -> Dict:
         """
         Map the source record to the target format.
@@ -175,10 +190,12 @@ class RecordMapper:
         subjects = self.map_subjects(meta.get("keywords", []))
         resource_type_id = self.map_resource_type(meta.get("resource_type", {}))
         related_identifiers = self.map_related_identifiers(record.get("doi"), meta)
+        doi = self.map_pids(record)
         # license_id = self.map_license(meta.get("license", {}))
         invenio_record = {
             "access": {"record": "public", "files": "public"},
             "files": {"enabled": include_files},
+            "pids": doi,
             "metadata": {
                 "title": meta.get("title"),
                 "resource_type": {"id": resource_type_id},
@@ -189,7 +206,7 @@ class RecordMapper:
                 # "rights": [{"id": license_id}],
                 "related_identifiers": related_identifiers,
             },
-            "type": "community-submission",  # Change if needed
+            "type": "community-submission",
         }
 
         return invenio_record
