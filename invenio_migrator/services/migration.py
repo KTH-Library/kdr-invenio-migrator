@@ -47,7 +47,7 @@ class MigrationService:
                 )
                 draft = self.target_client.create_draft(draft_body)
                 self.logger.info("Draft created: %s", draft.data._data["id"])
-                self.logger.debug("Draft body: %s", draft)
+                self.logger.debug("Draft body: %s", draft_body)
                 return draft
             except Exception as e:
                 self.logger.warning("Draft creation failed: %s", e)
