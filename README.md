@@ -29,7 +29,18 @@ TARGET_API_URL=https://kth.diva-portal.org/smash/api/invenio
 
 ## Usage
 
-Befor running the migration, make sure to double check the configurations in `invenio_migrator/config.py`
+Before running the migration, make sure to double check the configurations in `invenio_migrator/config.py`
+Make sure to provide the community id in the `COMMUNITY_ID` variable NOT the community name!
+you can retrieve the community id by:
+- navigating to the target community
+- open the Chrome dev tools under the network tab and filter by `Fetch/XHR`
+- refresh the page
+- look for the community id in the Headers tab under Request URL 
+- you will see something like this:
+`https://127.0.0.1:5000/api/communities/21f6dd7d-f98d-489e-b658-3db9aa459f13/records?q=&sort=newest&page=1&size=10`
+- grab the id `21f6dd7d-f98d-489e-b658-3db9aa459f13` and add it to the `COMMUNITY_ID` variable in the `config.py` file.
+
+```bash
 To check available commands, run:
 
 ```bash
