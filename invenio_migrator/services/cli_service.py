@@ -2,6 +2,8 @@
 
 from typing import Optional
 
+from requests.exceptions import HTTPError
+
 from ..utils.logger import logger
 from .migration import MigrationService
 
@@ -38,6 +40,10 @@ class CliService:
         )
 
         # Delegate to the migration service
-        self.migration_service.process_records(
-            dry_run=dry_run, query=query, include_files=include_files, **kwargs
-        )
+        try:
+            self.migration_service.process_records(
+                dry_run=dry_run, query=query, include_files=include_files, **kwargs
+            )
+        except HTTPError as e:
+            self.logger.error("Harvesting failed: %s", e)
+            return
