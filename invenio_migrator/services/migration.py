@@ -4,7 +4,9 @@ from typing import Any, Dict, Optional
 
 from ..clients.target import TargetClient
 from ..clients.zenodo import ZenodoHarvester
+from ..config import CONFIG
 from ..utils.logger import logger
+from ..utils.mapper import RELATION_TYPE_MAP
 
 
 class MigrationService:
@@ -13,7 +15,7 @@ class MigrationService:
     def __init__(self):
         """Initialize the migration service."""
         self.logger = logger
-        self.harvester = ZenodoHarvester()
+        self.source = ZenodoHarvester()
         self.target_client = TargetClient()
         self.record_mapper = RecordMapper()
 
@@ -22,11 +24,11 @@ class MigrationService:
         dry_run: bool = False,
         query: Optional[str] = None,
         include_files: bool = False,
-        stop_on_error: bool = True,
     ) -> None:
+        stop_on_error = CONFIG["MIGRATION_OPTIONS"]["STOP_ON_ERROR"]
         self.logger.info("Start harvesting ...")
         # fetch records from Zenodo
-        response = self.harvester.harvest_records(query=query)
+        response = self.source.harvest_records(query=query)
 
         if not response:
             self.logger.warning("No records found for query: %s", query)
@@ -46,9 +48,17 @@ class MigrationService:
                     record, include_files=include_files
                 )
                 draft = self.target_client.create_draft(draft_body)
-                self.logger.info("Draft created: %s", draft.data._data["id"])
                 self.logger.debug("Draft body: %s", draft_body)
-                return draft
+
+                # create review request
+                self.target_client.create_review_request(
+                    draft_id=draft.data._data["id"],
+                    community_id=CONFIG["INVENIORDM_COMMUNITY_ID"],
+                )
+                self.target_client.submit_review(
+                    draft_id=draft.data._data["id"],
+                    content=CONFIG["COMMUNITY_REVIEW_CONTENT"],
+                )
             except Exception as e:
                 self.logger.warning("Draft creation failed: %s", e)
                 if stop_on_error:
@@ -60,34 +70,36 @@ class RecordMapper:
     """Handles mapping between Zenodo and InvenioRDM formats."""
 
     def map_creator(self, creator: Dict) -> Dict:
-        """
-        Map a single creator to the InvenioRDM format.
+        full = creator.get("name", "").strip()
 
-        Args:
-            creator: The creator dictionary from the source record.
-        """
-        mapped_creator = {
-            "person_or_org": {
-                "type": "personal",
-                "name": creator.get("name"),
-                "family_name": creator.get("name").split(",")[0]
-                if "," in creator.get("name", "")
-                else None,
-                "given_name": creator.get("name").split(",")[1].strip()
-                if "," in creator.get("name", "")
-                else None,
-            }
+        # Name parsing
+        if "," in full:
+            family, given = (part.strip() for part in full.split(",", 1))
+        else:
+            parts = full.split()
+            family = parts[-1] if len(parts) > 1 else parts[0]
+            given = " ".join(parts[:-1]) if len(parts) > 1 else None
+
+        person_or_org = {
+            "type": "personal",
+            "name": full,
+            "family_name": family,
+            "given_name": given,
         }
-        # ORCID if present
-        if "orcid" in creator:
-            mapped_creator["person_or_org"]["identifiers"] = [
-                {"identifier": creator["orcid"], "scheme": "orcid"}
-            ]
-        # Affiliation if present
-        if creator.get("affiliation"):
-            mapped_creator["affiliations"] = [{"name": creator["affiliation"]}]
 
-        return mapped_creator
+        # Add ORCID if present
+        if orcid := creator.get("orcid"):
+            person_or_org["identifiers"] = [{"identifier": orcid, "scheme": "orcid"}]
+
+        # Build result and add affiliation if present
+        return {
+            "person_or_org": person_or_org,
+            **(
+                {"affiliations": [{"name": aff}]}
+                if (aff := creator.get("affiliation"))
+                else {}
+            ),
+        }
 
     def map_subjects(self, keywords: list) -> list:
         """
@@ -124,42 +136,53 @@ class RecordMapper:
         return license_info.get("id", "cc-by-4.0")
 
     def map_related_identifiers(self, doi: str, metadata: Dict[str, Any]) -> list:
-        """
-        Map related identifiers using the record DOI and existing metadata.
-
-        Args:
-            doi: The DOI of the source record.
-            metadata: The metadata dictionary from the source record.
-        """
         if not doi:
             raise ValueError("DOI is required to map related_identifiers")
-        # see ids: https://github.com/inveniosoftware/invenio-rdm-records/blob/v10.9.2/invenio_rdm_records/fixtures/data/vocabularies/relation_types.yaml
+
         related = [
             {
                 "scheme": "doi",
                 "identifier": doi,
                 "relation_type": {
                     "id": "isderivedfrom",
-                    "title": {"en": "Is derived from"},
+                    "title": {
+                        "en": RELATION_TYPE_MAP.get("isderivedfrom", "Is derived from")
+                    },
                 },
                 "resource_type": {"id": "publication", "title": {"en": "Publication"}},
             }
         ]
 
-        # Normalize any existing related_identifiers from the Zenodo metadata
         existing = metadata.get("related_identifiers", [])
         for item in existing:
-            # Make sure structure matches expected format
-            if isinstance(item.get("relation_type"), str):
-                item["relation_type"] = {
-                    "id": item["relation_type"],
-                    "title": {"en": item["relation_type"]},
-                }
-            if isinstance(item.get("resource_type"), str):
+            # Map 'relation' to 'relation_type'
+            relation_type_id = None
+            if "relation" in item:
+                relation_type_id = item["relation"].lower()
+                item.pop("relation")
+            elif "relation_type" in item:
+                if isinstance(item["relation_type"], str):
+                    relation_type_id = item["relation_type"].lower()
+                elif isinstance(item["relation_type"], dict):
+                    relation_type_id = item["relation_type"].get("id", "").lower()
+            # Validate
+            if not relation_type_id or relation_type_id not in RELATION_TYPE_MAP:
+                continue  # skip unknown/invalid types
+
+            # Set correct structure
+            item["relation_type"] = {
+                "id": relation_type_id,
+                "title": {"en": RELATION_TYPE_MAP[relation_type_id]},
+            }
+
+            # Fix resource_type if needed
+            if "resource_type" in item and isinstance(item["resource_type"], str):
+                res_id = item["resource_type"].lower()
                 item["resource_type"] = {
-                    "id": item["resource_type"],
-                    "title": {"en": item["resource_type"]},
+                    "id": res_id,
+                    "title": {"en": res_id.replace("_", " ").capitalize()},
                 }
+
             related.append(item)
 
         return related
