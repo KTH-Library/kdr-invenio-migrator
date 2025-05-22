@@ -22,17 +22,26 @@ SOURCE_API_TOKEN=your_zenodo_api_token
 # Zenodo COMMUNITY API URL
 SOURCE_COMMUNITY_API_URL=https://zenodo.org/api/records
 # KDR API token
-KDR_API_TOKEN=your_kdr_api_token
+TARGET_API_TOKEN=your_kdr_api_token
 # KDR API URL
-KDR_COMMUNITY_URL=https://kth.diva-portal.org/smash/api/invenio
-# INCLUDE RECORD FILES
-INCLUDE_RECORD_FILES=false
+TARGET_API_URL=https://kth.diva-portal.org/smash/api/invenio
 ```
 
 ## Usage
-To run the migration, use the following command:
+
+Befor running the migration, make sure to double check the configurations in `invenio_migrator/config.py`
+To check available commands, run:
 
 ```bash
+uv run invenio-migrator --help
+```
+To run the records migration, use the following command:
+
+```bash
+# list all available commands
+uv run invenio-migrator migrate --help
+
+# run the migration with specific query
 uv run invenio-migrator migrate -q "metadata.publication_date:{2025-01-01 TO *}" -d
 ```
 This will start the migration process and print the progress to the console.
@@ -57,7 +66,6 @@ uv run pytest tests
 
 
 ## TODOS
-- [ ] Add Zenodo DOI to the record step.
 - [ ] Add submit to community step.
 - [ ] Add approve and publish step.
 - [ ] First Zenodo request should save the response to a file and then read from it and only fetch if the file is not present or empty.
@@ -65,3 +73,4 @@ uv run pytest tests
 - [ ] Make the fields mappings more generic.
 - [ ] Add single record cli command.
 - [ ] Add a publish as an option.
+- [ ] Add cli command to remove all draft records (currently using Postman action).
