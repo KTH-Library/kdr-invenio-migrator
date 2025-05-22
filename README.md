@@ -54,3 +54,14 @@ To run the tests, use the following command:
 ```bash
 uv run pytest tests
 ```
+
+
+## TODOS
+- [ ] Add Zenodo DOI to the record step.
+- [ ] Add submit to community step.
+- [ ] Add approve and publish step.
+- [ ] First Zenodo request should save the response to a file and then read from it and only fetch if the file is not present or empty.
+- [ ] Refactor the code for source and destination to be more generic.
+- [ ] Make the fields mappings more generic.
+- [ ] Add single record cli command.
+- [ ] Add a publish as an option.
