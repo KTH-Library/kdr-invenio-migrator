@@ -22,39 +22,36 @@ class MigrationService:
         dry_run: bool = False,
         query: Optional[str] = None,
         include_files: bool = False,
+        stop_on_error: bool = True,
     ) -> None:
-        """
-        Process records from Zenodo based on the provided parameters.
+        self.logger.info("Start harvesting ...")
+        # fetch records from Zenodo
+        response = self.harvester.harvest_records(query=query)
 
-        Args:
-            dry_run: If True, fetches records without submitting to KDR.
-            query: Optional query string to filter results.
-        """
+        if not response:
+            self.logger.warning("No records found for query: %s", query)
+            return
 
-        try:
-            self.logger.info("Starting harvesting ...")
+        for record in response:
+            if not record:
+                self.logger.warning("Empty record encountered.")
+                continue
 
-            response = self.harvester.harvest_records(query=query)
-
-            if not response:
-                self.logger.warning("No records found for query: %s", query)
+            if dry_run:
+                self.logger.info("Dry run mode: %s", record)
                 return
 
-            for record in response:
-                if not record:
-                    self.logger.warning("No records found for query: %s", query)
-                    return
-
-                if dry_run:
-                    self.logger.warning("Dry run mode: %s", record)
+            try:
                 draft = self.record_mapper.map_record(
                     record, include_files=include_files
                 )
                 self.target_client.create_draft(draft)
-                logger.info("Draft created with ID: %s", draft)
-
-        except Exception as e:
-            self.logger.error("Harvest failed: %s", str(e))
+                self.logger.info("Draft processed: %s", draft["title"])
+            except Exception as e:
+                self.logger.warning("Draft creation failed: %s", e)
+                if stop_on_error:
+                    raise
+                continue
 
 
 class RecordMapper:
