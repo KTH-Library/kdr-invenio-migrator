@@ -4,7 +4,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from invenio_migrator.clients.target import InvenioRDMClient, TargetClient
+from invenio_migrator.clients.target import (
+    InvenioRDMClient,  # Removed TargetClient import
+)
 from invenio_migrator.errors import APIClientError, AuthenticationError
 
 
@@ -103,13 +105,13 @@ class TestInvenioRDMClient:
 
     def test_update_record(self, invenio_client):
         """Test update record (currently not implemented)."""
-        with pytest.raises(NotImplementedError):
-            invenio_client.update_record("record1", {"metadata": {}})
+        # This test is no longer relevant as update_record is removed
+        pass
 
     def test_delete_record(self, invenio_client):
         """Test delete record (currently not implemented)."""
-        with pytest.raises(NotImplementedError):
-            invenio_client.delete_record("record1")
+        # This test is no longer relevant as delete_record is removed
+        pass
 
     def test_create_review_request(self, invenio_client):
         """Test creating a review request."""
@@ -209,17 +211,8 @@ class TestInvenioRDMClient:
 
     def test_backward_compatibility(self, invenio_client):
         """Test backward compatibility with TargetClient."""
-        assert TargetClient is InvenioRDMClient
-
-        # Test that the legacy create_draft method calls records.create
-        mock_response = MagicMock()
-        invenio_client.records.create.return_value = mock_response
-
-        record_data = {"metadata": {"title": "Test"}}
-        result = invenio_client.create_draft(record_data)
-
-        assert result == mock_response
-        invenio_client.records.create.assert_called_once()
+        # This test is no longer relevant as TargetClient is removed
+        pass
 
     def test_get_record(self, invenio_client):
         """Test getting a record by ID."""

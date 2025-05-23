@@ -87,12 +87,6 @@ class ZenodoClient(BaseAPIClient, RecordProviderInterface):
                 return None
             raise
 
-    # Backward compatibility
-    def harvest_records(self, query: str) -> Iterator[Dict[str, Any]]:
-        """Legacy method for backward compatibility."""
-        logger.warning("harvest_records is deprecated, use get_records instead")
-        return self.get_records(query=query)
-
     def get_record_count(self, query: Optional[str] = None) -> int:
         """Get the total count of records matching the query."""
         if not query:
@@ -127,7 +121,3 @@ class ZenodoClient(BaseAPIClient, RecordProviderInterface):
         except Exception as e:
             logger.error(f"Connection validation failed: {str(e)}")
             return False
-
-
-# Backward compatibility alias
-ZenodoHarvester = ZenodoClient

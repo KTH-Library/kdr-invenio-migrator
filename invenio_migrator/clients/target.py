@@ -58,20 +58,6 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
             logger.error(f"Draft creation failed: {e}")
             raise APIClientError(f"Failed to create record: {e}")
 
-    def update_record(
-        self, record_id: str, record_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
-        """Update an existing record."""
-        # Implementation depends on inveniordm-py update capabilities
-        # For now, we'll raise NotImplementedError
-        raise NotImplementedError("Record update not yet implemented")
-
-    def delete_record(self, record_id: str) -> bool:
-        """Delete a record."""
-        # Implementation depends on inveniordm-py delete capabilities
-        # For now, we'll raise NotImplementedError
-        raise NotImplementedError("Record deletion not yet implemented")
-
     def create_review_request(self, draft_id: str, community_id: str) -> Dict:
         """Create a community review request for a draft."""
         try:
@@ -116,17 +102,6 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
             logger.error(f"Request acceptance failed: {e}")
             raise APIClientError(f"Failed to accept request: {e}")
 
-    # Legacy methods for backward compatibility
-    def create_draft(self, record_data: Dict[str, Any]) -> Optional[Dict]:
-        """Legacy method for backward compatibility."""
-        logger.warning("create_draft is deprecated, use create_record instead")
-        try:
-            draft_resource = self.records.create(data=DraftMetadata(**record_data))
-            return draft_resource
-        except Exception as e:
-            logger.error(f"Draft creation failed: {e}")
-            raise
-
     def get_record(self, record_id: str) -> Optional[Dict[str, Any]]:
         """Get a record by ID."""
         try:
@@ -145,7 +120,3 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
         except Exception as e:
             logger.error(f"Connection validation failed: {e}")
             return False
-
-
-# Backward compatibility alias
-TargetClient = InvenioRDMClient

@@ -173,17 +173,6 @@ class TestZenodoClient:
         with pytest.raises(APIClientError):
             zenodo_client.get_record("record1")
 
-    def test_backward_compatibility(self, zenodo_client):
-        """Test the backward compatibility method."""
-        # Setup the mock
-        zenodo_client.get_records = MagicMock(return_value=[{"id": "record1"}])
-
-        # Call the legacy method
-        list(zenodo_client.harvest_records("test query"))
-
-        # Verify it calls get_records
-        zenodo_client.get_records.assert_called_once_with(query="test query")
-
     def test_get_record_count(self, zenodo_client):
         """Test retrieving record count."""
         # Mock the response
