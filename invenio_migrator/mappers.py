@@ -2,6 +2,7 @@
 
 from typing import Any, Dict, Optional
 
+from invenio_migrator.config import CONFIG  # Added import
 from invenio_migrator.errors import RecordMappingError, RecordValidationError
 from invenio_migrator.interfaces import BaseRecordMapper
 from invenio_migrator.utils.logger import logger
@@ -32,7 +33,7 @@ class ZenodoToInvenioRDMMapper(BaseRecordMapper):
             mapped_record = {
                 "access": {"record": "public", "files": "public"},
                 "files": {"enabled": True},
-                "pids": pids,
+                # "pids": pids, # Conditionally added below
                 "metadata": {
                     "title": metadata.get("title"),
                     "resource_type": {"id": resource_type_id},
@@ -44,6 +45,10 @@ class ZenodoToInvenioRDMMapper(BaseRecordMapper):
                 },
                 "type": "community-submission",
             }
+
+            # Conditionally add pids to the mapped_record
+            if CONFIG["DRAFT_RECORDS"].get("INCLUDE_PIDS", True):
+                mapped_record["pids"] = pids
 
             # Validate the mapped record
             if not self.validate_mapped_record(mapped_record):
@@ -134,19 +139,26 @@ class ZenodoToInvenioRDMMapper(BaseRecordMapper):
                 record_id="", field="doi", reason="DOI is required"
             )
 
-        related = [
-            {
-                "scheme": "doi",
-                "identifier": doi,
-                "relation_type": {
-                    "id": "isderivedfrom",
-                    "title": {
-                        "en": RELATION_TYPE_MAP.get("isderivedfrom", "Is derived from")
+        related = []
+        if CONFIG["DRAFT_RECORDS"].get("INCLUDE_PIDS", True):
+            related.append(
+                {
+                    "scheme": "doi",
+                    "identifier": doi,
+                    "relation_type": {
+                        "id": "isderivedfrom",
+                        "title": {
+                            "en": RELATION_TYPE_MAP.get(
+                                "isderivedfrom", "Is derived from"
+                            )
+                        },
                     },
-                },
-                "resource_type": {"id": "publication", "title": {"en": "Publication"}},
-            }
-        ]
+                    "resource_type": {
+                        "id": "publication",
+                        "title": {"en": "Publication"},
+                    },
+                }
+            )
 
         # Process existing related identifiers
         existing = metadata.get("related_identifiers", [])
@@ -213,7 +225,13 @@ class ZenodoToInvenioRDMMapper(BaseRecordMapper):
 
     def validate_mapped_record(self, mapped_record: Dict[str, Any]) -> bool:
         """Validate that the mapped record has all required fields."""
-        required_top_level = ["access", "metadata", "pids"]
+        required_top_level = [
+            "access",
+            "metadata",
+        ]  # Removed "pids" as it's now conditional
+        if CONFIG["DRAFT_RECORDS"].get("INCLUDE_PIDS", True):
+            required_top_level.append("pids")
+
         required_metadata = ["title", "creators", "resource_type"]
 
         # Check top-level fields
@@ -244,7 +262,13 @@ class ZenodoToInvenioRDMMapper(BaseRecordMapper):
         """Get list of missing required fields."""
         missing = []
 
-        required_top_level = ["access", "metadata", "pids"]
+        required_top_level = [
+            "access",
+            "metadata",
+        ]  # Removed "pids" as it's now conditional
+        if CONFIG["DRAFT_RECORDS"].get("INCLUDE_PIDS", True):
+            required_top_level.append("pids")
+
         for field in required_top_level:
             if field not in mapped_record:
                 missing.append(field)

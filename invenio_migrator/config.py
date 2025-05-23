@@ -39,6 +39,6 @@ CONFIG = {
         "VERIFY_SSL": False,  # Only for testing!
     },
     "DRAFT_RECORDS": {
-        "INCLUDE_PIDS": True,
+        "INCLUDE_PIDS": False,
     },
 }
