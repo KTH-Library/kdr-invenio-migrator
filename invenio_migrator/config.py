@@ -15,8 +15,10 @@ CONFIG = {
     "TARGET_BASE_URL": "https://127.0.0.1:5000/api",
     # "TARGET_BASE_URL": "https://sandbox.datarepository.kth.se/api",
     "TARGET_API_TOKEN": os.getenv("TARGET_API_TOKEN"),
+    # local V12 sandbox test instance
+    "INVENIORDM_COMMUNITY_ID": "c9caea1c-c355-40d0-b285-9ebc797835ff",
     # Local KDR community ID
-    "INVENIORDM_COMMUNITY_ID": "21f6dd7d-f98d-489e-b658-3db9aa459f13",
+    # "INVENIORDM_COMMUNITY_ID": "21f6dd7d-f98d-489e-b658-3db9aa459f13",
     # Sandbox community ID
     # "INVENIORDM_COMMUNITY_ID": "1ef9e2c5-b11b-448f-985f-1d2e21a42095",
     "COMMUNITY_REVIEW_CONTENT": "👾👾👾 Auto generated using KDR migration tool 👾👾👾",
@@ -35,5 +37,8 @@ CONFIG = {
     },
     "SESSION": {
         "VERIFY_SSL": False,  # Only for testing!
+    },
+    "DRAFT_RECORDS": {
+        "INCLUDE_PIDS": True,
     },
 }
