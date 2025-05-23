@@ -1,6 +1,11 @@
 """Pytest fixtures for invenio-migrator tests."""
 
+import io
 import os
+import pathlib
+import shutil
+import sys
+import uuid
 from unittest.mock import patch
 
 import pytest
@@ -18,7 +23,7 @@ def mock_env_variables():
     }
 
     with patch.dict(os.environ, env_vars):
-        yield env_vars
+        yield
 
 
 @pytest.fixture
@@ -79,16 +84,30 @@ def sample_zenodo_record():
 @pytest.fixture
 def capture_stdout(monkeypatch):
     """Fixture to capture stdout for testing CLI output."""
-    import io
 
     output = io.StringIO()
+    monkeypatch.setattr(sys, "stdout", output)
+    yield output
 
-    class MockStdout:
-        def write(self, text):
-            output.write(text)
 
-        def flush(self):
-            pass
+@pytest.fixture
+def tests_tmp_path(request):
+    """Create a temporary directory inside tests/test-temp/ for a test and cleans it up."""
+    # Get the path to the 'tests' directory where conftest.py is located
+    tests_dir = pathlib.Path(__file__).parent
+    base_temp_dir = tests_dir / "test-temp"
 
-    monkeypatch.setattr("sys.stdout", MockStdout())
-    return output
+    # Create the base temporary directory if it doesn't exist
+    base_temp_dir.mkdir(parents=True, exist_ok=True)
+
+    # Create a unique directory for the current test using UUID
+    unique_subdir_name = uuid.uuid4().hex
+    test_specific_dir = base_temp_dir / unique_subdir_name
+    test_specific_dir.mkdir(parents=True, exist_ok=True)
+
+    def cleanup():
+        if test_specific_dir.exists():
+            shutil.rmtree(test_specific_dir)
+
+    request.addfinalizer(cleanup)
+    return test_specific_dir

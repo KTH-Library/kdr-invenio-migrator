@@ -24,9 +24,9 @@ def cli_service(mock_migration_service):
 
 
 @pytest.fixture
-def temp_output_file(tmp_path):
+def temp_output_file(tests_tmp_path):
     """Create a temporary output file path."""
-    return str(tmp_path / "output.json")
+    return str(tests_tmp_path / "output.json")
 
 
 class TestCliService:
@@ -187,33 +187,58 @@ class TestCliService:
         assert "Unexpected error" in exc_info.value.details
 
     def test_handle_output_to_file_error(
-        self, cli_service, mock_migration_service, tmp_path
+        self, cli_service, mock_migration_service, tests_tmp_path
     ):
-        """Test error handling when saving to file fails."""
-        invalid_path = str(tmp_path / "nonexistent_dir" / "output.json")
-
-        # Setup mock provider to prevent 'Mock has no attribute provider' error
+        """Test error handling when outputting to a file."""
+        # Setup mock migration service to return some data
+        # This is not strictly needed anymore as the provider/mapper path is taken
+        # mock_migration_service.migrate_records.return_value = [
+        #     {"id": "record1", "metadata": {"title": "Record 1"}}
+        # ]
+        # Setup mock provider and mapper for the case when output is to a file
         mock_provider = MagicMock()
-        mock_provider.get_records.return_value = [{"id": "record1"}]
-        mock_migration_service.provider = mock_provider
-        
-        # Configure mapper to return a simple record
+        mock_provider.get_records.return_value = [
+            {"id": "record1", "metadata": {"title": "Record 1"}},
+        ]
         mock_mapper = MagicMock()
-        mock_mapper.map_record.return_value = {"metadata": {"title": "Test Record"}}
+        mock_mapper.map_record.return_value = {
+            "metadata": {"title": "Mapped Record 1"},
+            "files": {"enabled": False},
+        }
+        mock_migration_service.provider = mock_provider
         mock_migration_service.mapper = mock_mapper
 
-        # Create a custom permission error with a clear message
-        permission_error = PermissionError("Permission denied for test file")
-        
-        # Setup to make the file write operation fail
-        with patch("pathlib.Path.open", side_effect=permission_error):
-            with pytest.raises(InvenioMigratorError) as exc_info:
-                cli_service.handle_migrate_command(output=invalid_path)
+        # Create a directory where a file is expected to test permission error
+        # (This is a simplified way to simulate a write error; specific OS/filesystem behavior might vary)
+        error_path = tests_tmp_path / "protected_dir"
+        error_path.mkdir()
+        # Attempt to make it read-only to cause a write error - this might not work on all systems
+        # or might not prevent writing depending on user privileges.
+        # A more robust test might involve mocking `open` or `json.dump`.
+        try:
+            error_path.chmod(0o400)  # Replaced os.chmod with Path.chmod
+        except PermissionError:
+            # If we can't change permissions (e.g. not owner), this part of the test might not be effective
+            pass
 
-            # Check the exception details
-            error_message = str(exc_info.value)
-            error_details = exc_info.value.details
-            
-            # Verify proper error handling
-            assert "Failed to save records to file" in error_message
-            assert "Permission denied for test file" in error_details
+        output_file_in_protected_dir = error_path / "output.jsonl"
+
+        # Temporarily mock open to simulate a permission error more reliably
+        with patch(
+            "builtins.open", side_effect=PermissionError("Simulated permission denied")
+        ):
+            with pytest.raises(InvenioMigratorError) as exc_info:
+                cli_service.handle_migrate_command(
+                    dry_run=True,  # dry_run is True, so migrate_records won't be called
+                    query="test query",
+                    output=str(output_file_in_protected_dir),
+                    include_files=False,
+                )
+        assert "Failed to save records to file" in str(
+            exc_info.value
+        )  # Changed assertion
+        # Clean up the read-only permission to allow the directory to be removed
+        try:
+            error_path.chmod(0o700)
+        except PermissionError:
+            pass

@@ -50,14 +50,14 @@ def test_migrate_with_query(mocker):
     )
 
 
-def test_migrate_with_output_file(tmp_path, mocker):
+def test_migrate_with_output_file(tests_tmp_path, mocker):
     """Test migrate command with output file."""
     # Mock the CliService
     mock_cli_service = mocker.patch("invenio_migrator.cli.CliService")
     mock_cli_service_instance = mock_cli_service.return_value
 
     runner = CliRunner()
-    output_file = tmp_path / "output.jsonl"
+    output_file = tests_tmp_path / "output.jsonl"
     result = runner.invoke(
         migrator,
         ["migrate", "--dry-run", "--output", str(output_file), "--include-files"],
