@@ -2,6 +2,7 @@
 
 import pytest
 
+from invenio_migrator.config import CONFIG  # Added import
 from invenio_migrator.errors import RecordMappingError, RecordValidationError
 from invenio_migrator.mappers import ZenodoToInvenioRDMMapper
 from invenio_migrator.utils.mapper import RELATION_TYPE_MAP
@@ -41,6 +42,8 @@ class TestZenodoToInvenioRDMMapper:
 
     def test_map_record_minimal(self, zenodo_mapper, minimal_zenodo_record):
         """Test mapping a minimal record with all required fields."""
+        # Temporarily set INCLUDE_PIDS to True for this test case
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = True
         mapped_record = zenodo_mapper.map_record(minimal_zenodo_record)
 
         # Verify core metadata
@@ -78,6 +81,7 @@ class TestZenodoToInvenioRDMMapper:
         assert rel_id["relation_type"]["id"] == "isderivedfrom"
 
         # Verify PIDs
+        assert "pids" in mapped_record
         assert mapped_record["pids"]["doi"]["identifier"] == "10.5281/zenodo.12345"
 
         # Verify access rights
@@ -87,6 +91,17 @@ class TestZenodoToInvenioRDMMapper:
         # Verify other attributes
         assert mapped_record["files"]["enabled"] is True
         assert mapped_record["type"] == "community-submission"
+
+        # Test case where INCLUDE_PIDS is False
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = False
+        mapped_record_no_pids = zenodo_mapper.map_record(minimal_zenodo_record)
+        assert "pids" not in mapped_record_no_pids
+        # Ensure related_identifiers does not include the source DOI when INCLUDE_PIDS is False
+        assert not any(
+            item["identifier"] == minimal_zenodo_record["doi"]
+            and item["relation_type"]["id"] == "isderivedfrom"
+            for item in mapped_record_no_pids["metadata"].get("related_identifiers", [])
+        )
 
     def test_map_record_missing_doi(self, zenodo_mapper):
         """Test mapping fails when DOI is missing."""
@@ -196,6 +211,8 @@ class TestZenodoToInvenioRDMMapper:
             ]
         }
 
+        # Test case where INCLUDE_PIDS is True
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = True
         related = zenodo_mapper._map_related_identifiers(doi, metadata)
 
         # Should have 2 identifiers: the source DOI and the one from related_identifiers
@@ -212,10 +229,17 @@ class TestZenodoToInvenioRDMMapper:
         assert related[1]["relation_type"]["id"] == "cites"
         assert related[1]["relation_type"]["title"]["en"] == RELATION_TYPE_MAP["cites"]
 
+        # Test case where INCLUDE_PIDS is False
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = False
+        related_no_source_doi = zenodo_mapper._map_related_identifiers(doi, metadata)
+        assert len(related_no_source_doi) == 1
+        assert related_no_source_doi[0]["identifier"] == "10.5281/zenodo.12346"
+
     def test_validate_mapped_record(self, zenodo_mapper):
         """Test record validation logic."""
-        # Valid record
-        valid_record = {
+        # Valid record with PIDs
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = True
+        valid_record_with_pids = {
             "access": {"record": "public", "files": "public"},
             "metadata": {
                 "title": "Test",
@@ -224,10 +248,23 @@ class TestZenodoToInvenioRDMMapper:
             },
             "pids": {"doi": {"identifier": "test"}},
         }
-        assert zenodo_mapper.validate_mapped_record(valid_record) is True
+        assert zenodo_mapper.validate_mapped_record(valid_record_with_pids) is True
 
-        # Missing top-level field
-        invalid1 = {
+        # Valid record without PIDs
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = False
+        valid_record_without_pids = {
+            "access": {"record": "public", "files": "public"},
+            "metadata": {
+                "title": "Test",
+                "creators": [{"person_or_org": {"name": "Test"}}],
+                "resource_type": {"id": "dataset"},
+            },
+        }
+        assert zenodo_mapper.validate_mapped_record(valid_record_without_pids) is True
+
+        # Missing top-level field (access) when PIDs are expected
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = True
+        invalid1_with_pids = {
             "metadata": {
                 "title": "Test",
                 "creators": [{"person_or_org": {"name": "Test"}}],
@@ -235,18 +272,39 @@ class TestZenodoToInvenioRDMMapper:
             },
             "pids": {"doi": {"identifier": "test"}},
         }
-        assert zenodo_mapper.validate_mapped_record(invalid1) is False
+        assert zenodo_mapper.validate_mapped_record(invalid1_with_pids) is False
 
-        # Missing metadata field
-        invalid2 = {
+        # Missing top-level field (access) when PIDs are NOT expected
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = False
+        invalid1_without_pids = {
+            "metadata": {
+                "title": "Test",
+                "creators": [{"person_or_org": {"name": "Test"}}],
+                "resource_type": {"id": "dataset"},
+            },
+        }
+        assert zenodo_mapper.validate_mapped_record(invalid1_without_pids) is False
+
+        # Missing metadata field (creators) when PIDs are expected
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = True
+        invalid2_with_pids = {
             "access": {"record": "public", "files": "public"},
             "metadata": {"title": "Test", "resource_type": {"id": "dataset"}},
             "pids": {"doi": {"identifier": "test"}},
         }
-        assert zenodo_mapper.validate_mapped_record(invalid2) is False
+        assert zenodo_mapper.validate_mapped_record(invalid2_with_pids) is False
 
-        # Empty title
-        invalid3 = {
+        # Missing metadata field (creators) when PIDs are NOT expected
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = False
+        invalid2_without_pids = {
+            "access": {"record": "public", "files": "public"},
+            "metadata": {"title": "Test", "resource_type": {"id": "dataset"}},
+        }
+        assert zenodo_mapper.validate_mapped_record(invalid2_without_pids) is False
+
+        # Empty title when PIDs are expected
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = True
+        invalid3_with_pids = {
             "access": {"record": "public", "files": "public"},
             "metadata": {
                 "title": "   ",
@@ -255,10 +313,23 @@ class TestZenodoToInvenioRDMMapper:
             },
             "pids": {"doi": {"identifier": "test"}},
         }
-        assert zenodo_mapper.validate_mapped_record(invalid3) is False
+        assert zenodo_mapper.validate_mapped_record(invalid3_with_pids) is False
 
-        # Empty creators
-        invalid4 = {
+        # Empty title when PIDs are NOT expected
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = False
+        invalid3_without_pids = {
+            "access": {"record": "public", "files": "public"},
+            "metadata": {
+                "title": "   ",
+                "creators": [{"person_or_org": {"name": "Test"}}],
+                "resource_type": {"id": "dataset"},
+            },
+        }
+        assert zenodo_mapper.validate_mapped_record(invalid3_without_pids) is False
+
+        # Empty creators when PIDs are expected
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = True
+        invalid4_with_pids = {
             "access": {"record": "public", "files": "public"},
             "metadata": {
                 "title": "Test",
@@ -267,4 +338,28 @@ class TestZenodoToInvenioRDMMapper:
             },
             "pids": {"doi": {"identifier": "test"}},
         }
-        assert zenodo_mapper.validate_mapped_record(invalid4) is False
+        assert zenodo_mapper.validate_mapped_record(invalid4_with_pids) is False
+
+        # Empty creators when PIDs are NOT expected
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = False
+        invalid4_without_pids = {
+            "access": {"record": "public", "files": "public"},
+            "metadata": {
+                "title": "Test",
+                "creators": [],
+                "resource_type": {"id": "dataset"},
+            },
+        }
+        assert zenodo_mapper.validate_mapped_record(invalid4_without_pids) is False
+
+        # Missing pids field when it is expected
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = True
+        invalid5_missing_pids = {
+            "access": {"record": "public", "files": "public"},
+            "metadata": {
+                "title": "Test",
+                "creators": [{"person_or_org": {"name": "Test"}}],
+                "resource_type": {"id": "dataset"},
+            },
+        }
+        assert zenodo_mapper.validate_mapped_record(invalid5_missing_pids) is False

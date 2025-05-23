@@ -11,12 +11,13 @@ from invenio_migrator.errors import APIClientError, AuthenticationError
 
 @pytest.fixture
 def mock_config():
-    """Mock the CONFIG dictionary."""
+    """Provide a mock configuration for testing."""
     return {
         "SOURCE_BASE_URL": "https://zenodo.example.org/api",
         "SOURCE_API_TOKEN": "test-token",
         "SOURCE_COMMUNITY_ID": "test-community",
         "RATE_LIMITS": {"SOURCE_REQUEST_DELAY_SECONDS": 0},
+        "SESSION": {"VERIFY_SSL": False, "TIMEOUT": 30},  # Added TIMEOUT
     }
 
 

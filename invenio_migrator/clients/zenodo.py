@@ -27,8 +27,8 @@ class ZenodoClient(BaseAPIClient, RecordProviderInterface):
         self._session = requests.Session()
         if self.api_token:
             self._session.headers.update({"Authorization": f"Bearer {self.api_token}"})
-        self._session.verify = False  # Only for testing
-        self._session.timeout = 30
+        self._session.verify = CONFIG["SESSION"]["VERIFY_SSL"]
+        self._session.timeout = CONFIG["SESSION"]["TIMEOUT"]
 
     def make_request(self, url: str, **kwargs: Any) -> Dict[str, Any]:
         """Make a request to the Zenodo API with rate limiting and error handling."""

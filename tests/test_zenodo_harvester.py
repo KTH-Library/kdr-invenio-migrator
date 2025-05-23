@@ -17,6 +17,7 @@ def mock_zenodo_harvester():
             "SOURCE_API_TOKEN": "test-token",
             "SOURCE_COMMUNITY_ID": "test-community",
             "RATE_LIMITS": {"SOURCE_REQUEST_DELAY_SECONDS": 0},
+            "SESSION": {"VERIFY_SSL": False, "TIMEOUT": 30},  # Added TIMEOUT
         },
     ):
         harvester = ZenodoHarvester()

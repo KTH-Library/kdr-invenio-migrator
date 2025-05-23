@@ -8,19 +8,16 @@ load_dotenv()
 
 CONFIG = {
     # Zenodo settings
-    "SOURCE_BASE_URL": "https://zenodo.org/api",
-    "SOURCE_COMMUNITY_ID": "kth",  # Replace with your Zenodo community ID
+    "SOURCE_BASE_URL": os.getenv("SOURCE_BASE_URL", default="https://zenodo.org/api"),
+    "SOURCE_COMMUNITY_ID": os.getenv("SOURCE_COMMUNITY_ID", default="kth"),
     "SOURCE_API_TOKEN": os.getenv("SOURCE_API_TOKEN"),
     # InvenioRDM settings
-    "TARGET_BASE_URL": "https://127.0.0.1:5000/api",
+    "TARGET_BASE_URL": os.getenv(
+        "TARGET_BASE_URL", default="https://127.0.0.1:5000/api"
+    ),
     # "TARGET_BASE_URL": "https://sandbox.datarepository.kth.se/api",
     "TARGET_API_TOKEN": os.getenv("TARGET_API_TOKEN"),
-    # local V12 sandbox test instance
-    "INVENIORDM_COMMUNITY_ID": "c9caea1c-c355-40d0-b285-9ebc797835ff",
-    # Local KDR community ID
-    # "INVENIORDM_COMMUNITY_ID": "21f6dd7d-f98d-489e-b658-3db9aa459f13",
-    # Sandbox community ID
-    # "INVENIORDM_COMMUNITY_ID": "1ef9e2c5-b11b-448f-985f-1d2e21a42095",
+    "INVENIORDM_COMMUNITY_ID": os.getenv("INVENIORDM_COMMUNITY_ID"),
     "COMMUNITY_REVIEW_CONTENT": "👾👾👾 Auto generated using KDR migration tool 👾👾👾",
     "RATE_LIMITS": {
         "SOURCE_REQUEST_DELAY_SECONDS": 2,
@@ -37,8 +34,9 @@ CONFIG = {
     },
     "SESSION": {
         "VERIFY_SSL": False,  # Only for testing!
+        "TIMEOUT": 30,
     },
     "DRAFT_RECORDS": {
-        "INCLUDE_PIDS": False,
+        "INCLUDE_PIDS": True,
     },
 }
