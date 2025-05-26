@@ -113,7 +113,9 @@ class TestMigrationService:
             migration_service.migrate_records(query="test query")
 
             # Verify correct method calls
-            mock_provider.get_records.assert_called_once_with(query="test query")
+            mock_provider.get_records.assert_called_once_with(
+                query="test query", record_or_records=None
+            )
             assert mock_mapper.map_record.call_count == 2
             assert mock_consumer.create_record.call_count == 2
 

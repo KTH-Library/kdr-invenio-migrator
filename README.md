@@ -71,8 +71,8 @@ uv run pytest tests
 - [x] Add submit to community step.
 - [x] Add approve step.
 - [ ] Add a publish as cli option.
-- [ ] Add single record cli command.
-- [ ] First Zenodo request should save the response to a file and then read from it (not DB for simplicity) and only fetch if the file is not present or empty.
+- [x] Add single record cli command.
 - [x] Refactor the code for source and destination to be more generic.
 - [x] Make the fields mappings more generic.
+- [ ] First Zenodo request should save the response to a file and then read from it (not DB for simplicity) and only fetch if the file is not present or empty.
 - [ ] Add cli command to remove all draft records (currently using Postman action).

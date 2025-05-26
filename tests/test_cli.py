@@ -27,7 +27,11 @@ def test_migrate_command(mocker):
 
     # Verify the CliService was called with correct parameters
     mock_cli_service_instance.handle_migrate_command.assert_called_once_with(
-        dry_run=True, query=None, output=None, include_files=False
+        dry_run=True,
+        query=None,
+        output=None,
+        include_files=False,
+        record_or_records=None,
     )
 
 
@@ -46,7 +50,11 @@ def test_migrate_with_query(mocker):
 
     # Verify the CliService was called with correct parameters
     mock_cli_service_instance.handle_migrate_command.assert_called_once_with(
-        dry_run=True, query=query, output=None, include_files=False
+        dry_run=True,
+        query=query,
+        output=None,
+        include_files=False,
+        record_or_records=None,
     )
 
 
@@ -68,7 +76,11 @@ def test_migrate_with_output_file(tests_tmp_path, mocker):
 
     # Verify the CliService was called with correct parameters
     mock_cli_service_instance.handle_migrate_command.assert_called_once_with(
-        dry_run=True, query=None, output=str(output_file), include_files=True
+        dry_run=True,
+        query=None,
+        output=str(output_file),
+        include_files=True,
+        record_or_records=None,
     )
 
 

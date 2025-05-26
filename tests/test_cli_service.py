@@ -59,7 +59,7 @@ class TestCliService:
 
         # Verify migration service called
         mock_migration_service.migrate_records.assert_called_once_with(
-            dry_run=True, query="test query", include_files=True
+            dry_run=True, query="test query", include_files=True, record_or_records=None
         )
 
     def test_handle_migrate_command_with_output(
@@ -88,7 +88,9 @@ class TestCliService:
         )
 
         # Verify provider and mapper called
-        mock_provider.get_records.assert_called_once_with(query="test query")
+        mock_provider.get_records.assert_called_once_with(
+            query="test query", record_or_records=None
+        )
         assert mock_mapper.map_record.call_count == 2
 
         # Verify migration_service.migrate_records NOT called
