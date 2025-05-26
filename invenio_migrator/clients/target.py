@@ -42,6 +42,19 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
         )
         self.records = self.client.records
 
+    def _check_api_errors(self, response_data: Dict[str, Any], operation: str) -> None:
+        """Check for API errors in response data and raise APIClientError if found."""
+        if "errors" in response_data and response_data["errors"]:
+            error_messages = []
+            for error in response_data["errors"]:
+                field = error.get("field", "unknown")
+                messages = error.get("messages", ["Unknown error"])
+                for message in messages:
+                    error_messages.append(f"{field}: {message}")
+            error_msg = "; ".join(error_messages)
+            logger.error(f"{operation} failed with API errors: {error_msg}")
+            raise APIClientError(f"Failed to {operation.lower()}: {error_msg}")
+
     def make_request(self, url: str, **kwargs: Any) -> Dict[str, Any]:
         """Make a request using the InvenioRDM client."""
         # This method is part of the interface but not used directly
@@ -52,8 +65,15 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
         """Create a new draft record."""
         try:
             draft_resource = self.records.create(data=DraftMetadata(**record_data))
-            logger.debug(f"Draft created with ID: {draft_resource.data._data['id']}")
-            return draft_resource.data._data
+            response_data = draft_resource.data._data
+
+            # Check for errors in the response
+            self._check_api_errors(response_data, "Draft creation")
+
+            logger.debug(f"Draft created with ID: {response_data['id']}")
+            return response_data
+        except APIClientError:
+            raise
         except Exception as e:
             logger.error(f"Draft creation failed: {e}")
             raise APIClientError(f"Failed to create record: {e}")
@@ -66,10 +86,15 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
                 receiver={"community": community_id}, type="community-submission"
             )
             response = resource.create(data)
-            logger.debug(
-                f"Review request created: {response.data._data['links']['self']}"
-            )
-            return response.data._data
+            response_data = response.data._data
+
+            # Check for errors in the response
+            self._check_api_errors(response_data, "Review request")
+
+            logger.debug(f"Review request created: {response_data['links']['self']}")
+            return response_data
+        except APIClientError:
+            raise
         except Exception as e:
             logger.error(f"Review request failed: {e}")
             raise APIClientError(f"Failed to create review request: {e}")
