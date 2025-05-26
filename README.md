@@ -14,18 +14,8 @@ uv sync -n
 
 ## Configuration
 
-run `cp .env.example .env` file in the root directory of the project and add the following environment variables:
+run `cp .env.example .env` file in the root directory of the project and update the environment variables as needed:
 
-```toml
-# Zenodo API token
-SOURCE_API_TOKEN=your_zenodo_api_token
-# Zenodo COMMUNITY API URL
-SOURCE_COMMUNITY_API_URL=https://zenodo.org/api/records
-# KDR API token
-TARGET_API_TOKEN=your_kdr_api_token
-# KDR API URL
-TARGET_API_URL=https://kth.diva-portal.org/smash/api/invenio
-```
 
 ## Usage
 
@@ -52,11 +42,12 @@ To run the records migration, use the following command:
 # list all available commands
 uv run invenio-migrator migrate --help
 
-# run the migration with specific query
+# run the migration with specific query as dry run
 uv run invenio-migrator migrate -q "metadata.publication_date:{2025-01-01 TO *}" -d
 ```
 This will start the migration process and print the progress to the console.
 Note that the `-q` option is used to query the records to be migrated. In this case, it will only migrate records with a publication date after January 1, 2025.
+the `-d` option is used to run the migration in dry run mode, which means it will not actually create any records in the destination but will print the records that would be created.
 
 
 formatting the repo:
@@ -77,11 +68,11 @@ uv run pytest tests
 
 
 ## TODOS
-- [ ] Add submit to community step.
-- [ ] Add approve and publish step.
-- [ ] First Zenodo request should save the response to a file and then read from it and only fetch if the file is not present or empty.
-- [ ] Refactor the code for source and destination to be more generic.
-- [ ] Make the fields mappings more generic.
+- [x] Add submit to community step.
+- [x] Add approve step.
+- [ ] Add a publish as cli option.
 - [ ] Add single record cli command.
-- [ ] Add a publish as an option.
+- [ ] First Zenodo request should save the response to a file and then read from it (not DB for simplicity) and only fetch if the file is not present or empty.
+- [x] Refactor the code for source and destination to be more generic.
+- [x] Make the fields mappings more generic.
 - [ ] Add cli command to remove all draft records (currently using Postman action).
