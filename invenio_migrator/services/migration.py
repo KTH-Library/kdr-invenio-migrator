@@ -90,7 +90,9 @@ class MigrationService(BaseMigrationService):
                         self._handle_community_submission(created_record)
 
                     success_count += 1
-                    self.logger.info(f"Successfully migrated record {record_id}")
+                    self.logger.info(
+                        f"Successfully migrated record https://zenodo.org/api/records/{record_id}"
+                    )
 
                 except (RecordMappingError, RecordValidationError) as e:
                     self.logger.warning(f"Failed to process record {record_id}: {e}")
