@@ -17,7 +17,7 @@ CONFIG = {
     ),
     # "TARGET_BASE_URL": "https://sandbox.datarepository.kth.se/api",
     "TARGET_API_TOKEN": os.getenv("TARGET_API_TOKEN"),
-    "INVENIORDM_COMMUNITY_ID": os.getenv("INVENIORDM_COMMUNITY_ID"),
+    "TARGET_COMMUNITY_ID": os.getenv("TARGET_COMMUNITY_ID"),
     "COMMUNITY_REVIEW_CONTENT": "👾👾👾 Auto generated using KDR migration tool 👾👾👾",
     "RATE_LIMITS": {
         "SOURCE_REQUEST_DELAY_SECONDS": 2,

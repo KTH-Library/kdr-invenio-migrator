@@ -134,7 +134,7 @@ class MigrationService(BaseMigrationService):
                 self.logger.warning("No draft ID found in created record")
                 return
 
-            community_id = CONFIG.get("INVENIORDM_COMMUNITY_ID")
+            community_id = CONFIG.get("TARGET_COMMUNITY_ID")
             if not community_id:
                 self.logger.warning(
                     "No community ID configured, skipping community submission"

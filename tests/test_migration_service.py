@@ -62,7 +62,7 @@ def mock_config():
     """Mock the CONFIG dictionary."""
     return {
         "MIGRATION_OPTIONS": {"STOP_ON_ERROR": False},
-        "INVENIORDM_COMMUNITY_ID": "test-community",
+        "TARGET_COMMUNITY_ID": "test-community",
         "COMMUNITY_REVIEW_CONTENT": "Test review content",
     }
 
