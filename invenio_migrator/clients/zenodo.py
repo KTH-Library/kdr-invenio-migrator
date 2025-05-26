@@ -50,9 +50,26 @@ class ZenodoClient(BaseAPIClient, RecordProviderInterface):
             raise APIClientError(f"Request failed: {str(e)}")
 
     def get_records(
-        self, query: Optional[str] = None, **kwargs: Any
+        self,
+        query: Optional[str] = None,
+        record_or_records: Optional[str] = None,
+        **kwargs: Any,
     ) -> Iterator[Dict[str, Any]]:
         """Get records from Zenodo with pagination support."""
+
+        if record_or_records:
+            # If specific records are requested, fetch them directly
+            if isinstance(record_or_records, str):
+                record_ids = record_or_records.split(",")
+            else:
+                record_ids = record_or_records
+
+            for record_id in record_ids:
+                record = self.get_record(record_id.strip())
+                if record:
+                    yield record
+            return
+
         if not query:
             query = "*"
 

@@ -27,6 +27,7 @@ class CliService:
         query: Optional[str] = None,
         output: Optional[str] = None,
         include_files: bool = False,
+        record_or_records: Optional[str] = None,
         **kwargs: Optional[dict],
     ) -> None:
         """Handle the migrate command from CLI.
@@ -36,29 +37,42 @@ class CliService:
             query: Optional query string to filter results.
             output: Optional file path to save the harvested records.
             include_files: Whether to include files in migration.
+            record_or_records: Optional specific record ID(s) to migrate.
             **kwargs: Additional parameters for migration.
         """
         self.logger.debug(
-            "Processing migrate command with options: dry_run=%s, query=%s, output=%s, include_files=%s",
+            "Processing migrate command with options: dry_run=%s, query=%s, output=%s, include_files=%s, record_or_records=%s",
             dry_run,
             query,
             output,
             include_files,
+            record_or_records,
         )
 
         try:
+            if record_or_records:
+                record_or_records = record_or_records.strip().split(",")
+                record_or_records = [r.strip() for r in record_or_records if r.strip()]
+                if not record_or_records:
+                    self.logger.warning("No valid record IDs provided, skipping")
+                    return
             # Handle output to file if specified
             if output:
                 self._handle_output_to_file(
                     output_file=output,
                     query=query,
                     include_files=include_files,
+                    record_or_records=record_or_records,
                     **kwargs,
                 )
             else:
                 # Standard migration workflow
                 self.migration_service.migrate_records(
-                    dry_run=dry_run, query=query, include_files=include_files, **kwargs
+                    dry_run=dry_run,
+                    query=query,
+                    include_files=include_files,
+                    record_or_records=record_or_records,
+                    **kwargs,
                 )
 
         except MigrationError as e:

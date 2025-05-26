@@ -46,6 +46,7 @@ class MigrationService(BaseMigrationService):
         dry_run: bool = False,
         query: Optional[str] = None,
         include_files: bool = False,
+        record_or_records: Optional[str] = None,
         **kwargs: Any,
     ) -> None:
         """Migrate records from source to target with error handling and progress tracking."""
@@ -56,7 +57,9 @@ class MigrationService(BaseMigrationService):
 
         try:
             # Get records from provider
-            records = self.provider.get_records(query=query, **kwargs)
+            records = self.provider.get_records(
+                query=query, record_or_records=record_or_records, **kwargs
+            )
 
             for record in records:
                 if not record:
