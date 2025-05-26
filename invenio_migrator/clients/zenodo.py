@@ -62,12 +62,14 @@ class ZenodoClient(BaseAPIClient, RecordProviderInterface):
             "communities": self.community_id,
             "size": kwargs.get("size", 100),
             "sort": kwargs.get("sort", "newest"),
-            "all_versions": kwargs.get("all_versions", True),
+            "allversions": kwargs.get("all_versions", False),
         }
 
         while url:
             data = self.make_request(url, params=params)
-
+            logger.info(
+                f"Source Record count data: {data.get('hits', {}).get('total', 0)}"
+            )
             # Yield records from current page
             yield from data.get("hits", {}).get("hits", [])
 
