@@ -1,5 +1,6 @@
 """InvenioRDM client for creating records in target repository."""
 
+import time
 from typing import Any, Dict, Optional
 
 from inveniordm_py.client import InvenioAPI
@@ -25,6 +26,8 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
         super().__init__(
             base_url=CONFIG["TARGET_BASE_URL"], api_token=CONFIG["TARGET_API_TOKEN"]
         )
+        self.request_delay = CONFIG["RATE_LIMITS"]["REQUEST_DELAY_SECONDS"]
+        self.request_max_retries = CONFIG["RATE_LIMITS"]["MAX_RETRIES"]
         self._setup_session()
 
     def _setup_session(self) -> None:
@@ -55,6 +58,53 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
             logger.error(f"{operation} failed with API errors: {error_msg}")
             raise APIClientError(f"Failed to {operation.lower()}: {error_msg}")
 
+    def _retry_with_backoff(self, func, *args, max_retries: int = None, **kwargs):
+        """Retry a function with exponential backoff for rate limiting."""
+
+        max_retries = max_retries or self.request_max_retries
+        for attempt in range(max_retries + 1):
+            try:
+                return func(*args, **kwargs)
+            except Exception as e:
+                # Check if it's a rate limiting error (429)
+                if (
+                    hasattr(e, "response")
+                    and hasattr(e.response, "status_code")
+                    and e.response.status_code == 429
+                ):
+                    if attempt < max_retries:
+                        wait_time = (2**attempt) * self.request_delay
+                        logger.warning(
+                            f"Rate limited (429), retrying in {wait_time}s (attempt {attempt + 1}/{max_retries + 1})"
+                        )
+                        time.sleep(wait_time)
+                        continue
+                    else:
+                        logger.error(
+                            f"Rate limited after {max_retries} retries, giving up"
+                        )
+                        raise APIClientError(
+                            f"Rate limit exceeded after {max_retries} retries"
+                        )
+                elif "429" in str(e) or "TOO MANY REQUESTS" in str(e):
+                    if attempt < max_retries:
+                        wait_time = (2**attempt) * self.request_delay
+                        logger.warning(
+                            f"Rate limited (429), retrying in {wait_time}s (attempt {attempt + 1}/{max_retries + 1})"
+                        )
+                        time.sleep(wait_time)
+                        continue
+                    else:
+                        logger.error(
+                            f"Rate limited after {max_retries} retries, giving up"
+                        )
+                        raise APIClientError(
+                            f"Rate limit exceeded after {max_retries} retries"
+                        )
+                else:
+                    # Re-raise non-rate-limiting errors immediately
+                    raise
+
     def make_request(self, url: str, **kwargs: Any) -> Dict[str, Any]:
         """Make a request using the InvenioRDM client."""
         # This method is part of the interface but not used directly
@@ -63,7 +113,8 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
 
     def create_record(self, record_data: Dict[str, Any]) -> Dict[str, Any]:
         """Create a new draft record."""
-        try:
+
+        def _create_draft():
             draft_resource = self.records.create(data=DraftMetadata(**record_data))
             response_data = draft_resource.data._data
 
@@ -72,6 +123,9 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
 
             logger.debug(f"Draft created with ID: {response_data['id']}")
             return response_data
+
+        try:
+            return self._retry_with_backoff(_create_draft)
         except APIClientError:
             raise
         except Exception as e:
@@ -80,6 +134,9 @@ class InvenioRDMClient(BaseAPIClient, RecordConsumerInterface):
 
     def create_review_request(self, draft_id: str, community_id: str) -> Dict:
         """Create a community review request for a draft."""
+        # Apply rate limiting
+        time.sleep(self.request_delay)
+
         try:
             resource = CommunitySubmissionResource(self.client, id_=draft_id)
             data = Metadata(
