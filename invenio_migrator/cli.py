@@ -1,9 +1,13 @@
 """CLI for Invenio Migrator."""
 
 import click
+import urllib3
 
 from .services import CliService
 from .utils.logger import logger
+
+# Disable SSL warnings for insecure requests InsecureRequestWarning
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 @click.group()
