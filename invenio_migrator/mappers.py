@@ -91,10 +91,13 @@ class ZenodoToInvenioRDMMapper(BaseRecordMapper):
         # Parse name
         if "," in full_name:
             family, given = (part.strip() for part in full_name.split(",", 1))
+            # Ensure given name is not empty after stripping
+            if not given:
+                given = ""
         else:
             parts = full_name.split()
             family = parts[-1] if len(parts) > 1 else parts[0]
-            given = " ".join(parts[:-1]) if len(parts) > 1 else None
+            given = " ".join(parts[:-1]) if len(parts) > 1 else ""
 
         person_or_org = {
             "type": "personal",

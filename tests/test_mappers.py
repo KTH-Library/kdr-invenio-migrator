@@ -157,7 +157,7 @@ class TestZenodoToInvenioRDMMapper:
         creator3 = {"name": "Cher", "affiliation": "Music Industry"}
         result3 = zenodo_mapper._map_single_creator(creator3)
         assert result3["person_or_org"]["family_name"] == "Cher"
-        assert result3["person_or_org"]["given_name"] is None
+        assert result3["person_or_org"]["given_name"] == ""
 
     def test_map_creator_with_empty_name(self, zenodo_mapper):
         """Test mapping creator with empty name raises error."""
@@ -363,3 +363,197 @@ class TestZenodoToInvenioRDMMapper:
             },
         }
         assert zenodo_mapper.validate_mapped_record(invalid5_missing_pids) is False
+
+    def test_map_creator_edge_cases(self, zenodo_mapper):
+        """Test mapping creators with edge cases that caused API errors."""
+        # Test names from the error logs
+        test_cases = [
+            # Case 1: Single name without comma (like "Ali-MacLachlan")
+            {
+                "name": "Ali-MacLachlan",
+                "expected_family": "Ali-MacLachlan",
+                "expected_given": "",
+            },
+            # Case 2: Name with only comma and no given name
+            {
+                "name": "Smith,",
+                "expected_family": "Smith",
+                "expected_given": "",
+            },
+            # Case 3: Name with comma and whitespace only after comma
+            {
+                "name": "Johnson, ",
+                "expected_family": "Johnson",
+                "expected_given": "",
+            },
+            # Case 4: Complex name with multiple parts but no comma
+            {
+                "name": "van der Berg",
+                "expected_family": "Berg",
+                "expected_given": "van der",
+            },
+            # Case 5: Name like "Holzapfel, Andre"
+            {
+                "name": "Holzapfel, Andre",
+                "expected_family": "Holzapfel",
+                "expected_given": "Andre",
+            },
+            # Case 6: Name like "Ramana R. Avula"
+            {
+                "name": "Ramana R. Avula",
+                "expected_family": "Avula",
+                "expected_given": "Ramana R.",
+            },
+        ]
+
+        for test_case in test_cases:
+            creator = {"name": test_case["name"], "affiliation": "Test University"}
+            result = zenodo_mapper._map_single_creator(creator)
+
+            assert (
+                result["person_or_org"]["family_name"] == test_case["expected_family"]
+            ), (
+                f"Family name mismatch for '{test_case['name']}': expected '{test_case['expected_family']}', got '{result['person_or_org']['family_name']}'"
+            )
+            assert (
+                result["person_or_org"]["given_name"] == test_case["expected_given"]
+            ), (
+                f"Given name mismatch for '{test_case['name']}': expected '{test_case['expected_given']}', got '{result['person_or_org']['given_name']}'"
+            )
+            assert result["person_or_org"]["given_name"] is not None, (
+                f"Given name should never be None for '{test_case['name']}'"
+            )
+
+    def test_map_creators_from_error_logs(self, zenodo_mapper):
+        """Test specific creator names that caused API errors in production."""
+        # Names from the actual error logs
+        error_log_creators = [
+            {
+                "name": "Ramana R. Avula",
+                "affiliation": "KTH Royal Institute of Technology",
+                "orcid": "0000-0001-9672-2689",
+            },
+            {
+                "name": "Tobias J. Oechtering",
+                "affiliation": "KTH Royal Institute of Technology",
+                "orcid": "0000-0002-0036-9049",
+            },
+            {
+                "name": "Daniel Månsson",
+                "affiliation": "KTH Royal Institute of Technology",
+                "orcid": "0000-0003-4740-1832",
+            },
+            {
+                "name": "Holzapfel, Andre",
+                "affiliation": "KTH Royal Institute of Technology",
+                "orcid": "0000-0003-1679-6018",
+            },
+            {
+                "name": "Ali-MacLachlan",
+                "affiliation": "Birmingham City University",
+                "orcid": "0000-0002-9380-3122",
+            },
+        ]
+
+        for creator in error_log_creators:
+            result = zenodo_mapper._map_single_creator(creator)
+
+            # Ensure all required fields are present and not None
+            assert "person_or_org" in result
+            assert result["person_or_org"]["name"] == creator["name"]
+            assert result["person_or_org"]["type"] == "personal"
+            assert result["person_or_org"]["family_name"] is not None
+            assert result["person_or_org"]["given_name"] is not None
+            assert isinstance(result["person_or_org"]["given_name"], str)
+
+            # Ensure affiliation is mapped
+            assert "affiliations" in result
+            assert result["affiliations"][0]["name"] == creator["affiliation"]
+
+            # Ensure ORCID is mapped
+            assert "identifiers" in result["person_or_org"]
+            assert (
+                result["person_or_org"]["identifiers"][0]["identifier"]
+                == creator["orcid"]
+            )
+            assert result["person_or_org"]["identifiers"][0]["scheme"] == "orcid"
+
+    def test_map_record_with_problematic_creators(self, zenodo_mapper):
+        """Test mapping a complete record with creators that previously caused errors."""
+        zenodo_record = {
+            "id": "8006451",
+            "doi": "10.5281/zenodo.8006451",
+            "metadata": {
+                "title": "Test Record with Problematic Creators",
+                "description": "This record contains creators that caused API errors",
+                "publication_date": "2025-05-26",
+                "resource_type": {"type": "dataset"},
+                "creators": [
+                    {
+                        "name": "Ramana R. Avula",
+                        "affiliation": "KTH Royal Institute of Technology",
+                        "orcid": "0000-0001-9672-2689",
+                    },
+                    {
+                        "name": "Tobias J. Oechtering",
+                        "affiliation": "KTH Royal Institute of Technology",
+                        "orcid": "0000-0002-0036-9049",
+                    },
+                    {
+                        "name": "Daniel Månsson",
+                        "affiliation": "KTH Royal Institute of Technology",
+                        "orcid": "0000-0003-4740-1832",
+                    },
+                    {
+                        "name": "Holzapfel, Andre",
+                        "affiliation": "KTH Royal Institute of Technology",
+                        "orcid": "0000-0003-1679-6018",
+                    },
+                    {
+                        "name": "Ali-MacLachlan",
+                        "affiliation": "Birmingham City University",
+                        "orcid": "0000-0002-9380-3122",
+                    },
+                ],
+                "keywords": ["test", "dataset"],
+            },
+        }
+
+        # Enable PIDs for this test
+        CONFIG["DRAFT_RECORDS"]["INCLUDE_PIDS"] = True
+
+        mapped_record = zenodo_mapper.map_record(zenodo_record)
+
+        # Verify the record was mapped successfully
+        assert "metadata" in mapped_record
+        assert (
+            mapped_record["metadata"]["title"]
+            == "Test Record with Problematic Creators"
+        )
+
+        # Verify all creators were mapped and have non-null given_name
+        creators = mapped_record["metadata"]["creators"]
+        assert len(creators) == 5
+
+        for i, creator in enumerate(creators):
+            assert "person_or_org" in creator
+            assert creator["person_or_org"]["given_name"] is not None
+            assert isinstance(creator["person_or_org"]["given_name"], str)
+
+        # Check specific creator mappings
+        assert creators[0]["person_or_org"]["family_name"] == "Avula"
+        assert creators[0]["person_or_org"]["given_name"] == "Ramana R."
+
+        assert creators[1]["person_or_org"]["family_name"] == "Oechtering"
+        assert creators[1]["person_or_org"]["given_name"] == "Tobias J."
+
+        assert creators[2]["person_or_org"]["family_name"] == "Månsson"
+        assert creators[2]["person_or_org"]["given_name"] == "Daniel"
+
+        assert creators[3]["person_or_org"]["family_name"] == "Holzapfel"
+        assert creators[3]["person_or_org"]["given_name"] == "Andre"
+
+        assert creators[4]["person_or_org"]["family_name"] == "Ali-MacLachlan"
+        assert (
+            creators[4]["person_or_org"]["given_name"] == ""
+        )  # Empty string, not None
