@@ -101,7 +101,7 @@ class MigrationService(BaseMigrationService):
 
                 except Exception as e:
                     self.logger.error(
-                        f"Unexpected error processing record {record_id}: {e}"
+                        f"Unexpected error processing record https://zenodo.org/api/records/{record_id}: {e}"
                     )
                     failed_records.append({"id": record_id, "error": str(e)})
 
