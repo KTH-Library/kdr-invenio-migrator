@@ -49,6 +49,14 @@ This will start the migration process and print the progress to the console.
 Note that the `-q` option is used to query the records to be migrated. In this case, it will only migrate records with a publication date after January 1, 2025.
 the `-d` option is used to run the migration in dry run mode, which means it will not actually create any records in the destination but will print the records that would be created.
 
+## Run the migration for specific records
+If you want to run the migration for specific records, you can use the `-r "123"` or `--record "123, 123"` option followed by the record IDs. For example:
+
+```bash
+ uv run invenio-migrator migrate -r "7100288, 7100289, 7100290"
+```
+This will run the migration for the specified records. You can specify multiple record IDs separated by commas.
+
 
 formatting the repo:
 
