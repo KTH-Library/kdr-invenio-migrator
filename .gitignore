@@ -15,4 +15,3 @@ wheels/
 .DS_Store
 
 tests/test-temp/
-*.log

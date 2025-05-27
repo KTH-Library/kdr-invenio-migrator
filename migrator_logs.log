@@ -1,0 +1,570 @@
+2025-05-27 10:24:36 - INFO : Invenio Migrator CLI started
+
+2025-05-27 10:24:36 - DEBUG : Processing migrate command with options: dry_run=False, query=None, output=None, include_files=False, record_or_records=None
+
+2025-05-27 10:24:36 - INFO : Starting record migration...
+
+2025-05-27 10:24:41 - INFO : Source Record count data: 57
+
+2025-05-27 10:24:41 - ERROR : Draft creation failed with API errors: pids.doi: doi:10.5281/zenodo.15411009 already exists.
+
+2025-05-27 10:24:41 - ERROR : Unexpected error processing record https://zenodo.org/api/records/15411009: Failed to draft creation: pids.doi: doi:10.5281/zenodo.15411009 already exists.
+
+2025-05-27 10:24:42 - DEBUG : Draft created with ID: y66vb-06e20
+
+2025-05-27 10:24:43 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/26773d0e-fef4-4ec4-a6df-fecbe82c2524
+
+2025-05-27 10:24:43 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/26773d0e-fef4-4ec4-a6df-fecbe82c2524
+
+2025-05-27 10:24:43 - DEBUG : Community submission completed for draft y66vb-06e20
+
+2025-05-27 10:24:43 - INFO : Successfully migrated record https://zenodo.org/api/records/14608233
+
+2025-05-27 10:24:44 - DEBUG : Draft created with ID: dg8zm-q4b26
+
+2025-05-27 10:24:45 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/47c8283e-90e4-4f23-a342-59f20cedf2fa
+
+2025-05-27 10:24:46 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/47c8283e-90e4-4f23-a342-59f20cedf2fa
+
+2025-05-27 10:24:46 - DEBUG : Community submission completed for draft dg8zm-q4b26
+
+2025-05-27 10:24:46 - INFO : Successfully migrated record https://zenodo.org/api/records/14191104
+
+2025-05-27 10:24:46 - DEBUG : Draft created with ID: zwpmk-jgb94
+
+2025-05-27 10:24:47 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/b62b1648-b170-45e7-a0cb-9c4f9b28ce82
+
+2025-05-27 10:24:48 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/b62b1648-b170-45e7-a0cb-9c4f9b28ce82
+
+2025-05-27 10:24:48 - DEBUG : Community submission completed for draft zwpmk-jgb94
+
+2025-05-27 10:24:48 - INFO : Successfully migrated record https://zenodo.org/api/records/10996743
+
+2025-05-27 10:24:48 - DEBUG : Draft created with ID: epg33-y7x48
+
+2025-05-27 10:24:49 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/5461eb4c-471a-48c2-95c1-26acbc38d877
+
+2025-05-27 10:24:50 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/5461eb4c-471a-48c2-95c1-26acbc38d877
+
+2025-05-27 10:24:50 - DEBUG : Community submission completed for draft epg33-y7x48
+
+2025-05-27 10:24:50 - INFO : Successfully migrated record https://zenodo.org/api/records/13951769
+
+2025-05-27 10:24:50 - ERROR : Draft creation failed with API errors: pids.doi: doi:10.5281/zenodo.14192929 already exists.
+
+2025-05-27 10:24:50 - ERROR : Unexpected error processing record https://zenodo.org/api/records/14192929: Failed to draft creation: pids.doi: doi:10.5281/zenodo.14192929 already exists.
+
+2025-05-27 10:24:51 - DEBUG : Draft created with ID: tpnn9-trj08
+
+2025-05-27 10:24:52 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/6302f0f6-88fa-41b1-906e-eef92435377e
+
+2025-05-27 10:24:52 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/6302f0f6-88fa-41b1-906e-eef92435377e
+
+2025-05-27 10:24:52 - DEBUG : Community submission completed for draft tpnn9-trj08
+
+2025-05-27 10:24:52 - INFO : Successfully migrated record https://zenodo.org/api/records/13332456
+
+2025-05-27 10:24:53 - DEBUG : Draft created with ID: 68x8q-yyj63
+
+2025-05-27 10:24:54 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/13fa58a8-1af3-4663-8248-a3b1dc85dc7b
+
+2025-05-27 10:24:54 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/13fa58a8-1af3-4663-8248-a3b1dc85dc7b
+
+2025-05-27 10:24:54 - DEBUG : Community submission completed for draft 68x8q-yyj63
+
+2025-05-27 10:24:54 - INFO : Successfully migrated record https://zenodo.org/api/records/12750436
+
+2025-05-27 10:24:55 - DEBUG : Draft created with ID: cr0dw-wbq40
+
+2025-05-27 10:24:56 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/2f9eb915-e6d9-4bb8-aaf4-51b3a589a7a1
+
+2025-05-27 10:24:56 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/2f9eb915-e6d9-4bb8-aaf4-51b3a589a7a1
+
+2025-05-27 10:24:56 - DEBUG : Community submission completed for draft cr0dw-wbq40
+
+2025-05-27 10:24:56 - INFO : Successfully migrated record https://zenodo.org/api/records/12605480
+
+2025-05-27 10:24:57 - DEBUG : Draft created with ID: ka2pk-e6a25
+
+2025-05-27 10:24:59 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/4bd6a135-bbdb-49f7-bac6-086ac2cd76da
+
+2025-05-27 10:24:59 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/4bd6a135-bbdb-49f7-bac6-086ac2cd76da
+
+2025-05-27 10:24:59 - DEBUG : Community submission completed for draft ka2pk-e6a25
+
+2025-05-27 10:24:59 - INFO : Successfully migrated record https://zenodo.org/api/records/11402534
+
+2025-05-27 10:24:59 - DEBUG : Draft created with ID: vj200-wjt55
+
+2025-05-27 10:25:00 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/c20fbcea-d425-43d2-ad5d-0a722ff90c50
+
+2025-05-27 10:25:01 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/c20fbcea-d425-43d2-ad5d-0a722ff90c50
+
+2025-05-27 10:25:01 - DEBUG : Community submission completed for draft vj200-wjt55
+
+2025-05-27 10:25:01 - INFO : Successfully migrated record https://zenodo.org/api/records/11110183
+
+2025-05-27 10:25:01 - DEBUG : Draft created with ID: 6jtc3-2hm92
+
+2025-05-27 10:25:02 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/179a4e49-4cd4-4233-a8d5-82505bfb2bca
+
+2025-05-27 10:25:03 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/179a4e49-4cd4-4233-a8d5-82505bfb2bca
+
+2025-05-27 10:25:03 - DEBUG : Community submission completed for draft 6jtc3-2hm92
+
+2025-05-27 10:25:03 - INFO : Successfully migrated record https://zenodo.org/api/records/10802532
+
+2025-05-27 10:25:03 - DEBUG : Draft created with ID: hebmw-rvn59
+
+2025-05-27 10:25:04 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/e79dc216-97ae-4761-97c9-ffc707e392e6
+
+2025-05-27 10:25:05 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/e79dc216-97ae-4761-97c9-ffc707e392e6
+
+2025-05-27 10:25:05 - DEBUG : Community submission completed for draft hebmw-rvn59
+
+2025-05-27 10:25:05 - INFO : Successfully migrated record https://zenodo.org/api/records/10641328
+
+2025-05-27 10:25:05 - DEBUG : Draft created with ID: zk6b4-aet35
+
+2025-05-27 10:25:06 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/bc0125fb-3cb0-47b3-b4cc-993f4844ed79
+
+2025-05-27 10:25:06 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/bc0125fb-3cb0-47b3-b4cc-993f4844ed79
+
+2025-05-27 10:25:06 - DEBUG : Community submission completed for draft zk6b4-aet35
+
+2025-05-27 10:25:06 - INFO : Successfully migrated record https://zenodo.org/api/records/10445868
+
+2025-05-27 10:25:07 - DEBUG : Draft created with ID: 1dc51-2d897
+
+2025-05-27 10:25:08 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/1e82dd9e-144c-4ac9-a24f-7058e00b06cb
+
+2025-05-27 10:25:08 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/1e82dd9e-144c-4ac9-a24f-7058e00b06cb
+
+2025-05-27 10:25:08 - DEBUG : Community submission completed for draft 1dc51-2d897
+
+2025-05-27 10:25:08 - INFO : Successfully migrated record https://zenodo.org/api/records/10419469
+
+2025-05-27 10:25:09 - DEBUG : Draft created with ID: cwv5j-dk850
+
+2025-05-27 10:25:11 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/668690aa-4c01-4a77-ab91-0dadc1a5b085
+
+2025-05-27 10:25:11 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/668690aa-4c01-4a77-ab91-0dadc1a5b085
+
+2025-05-27 10:25:11 - DEBUG : Community submission completed for draft cwv5j-dk850
+
+2025-05-27 10:25:11 - INFO : Successfully migrated record https://zenodo.org/api/records/10260248
+
+2025-05-27 10:25:11 - DEBUG : Draft created with ID: vfspe-6rp67
+
+2025-05-27 10:25:13 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/f9243b52-8cf8-43f8-aa67-64a62330b02c
+
+2025-05-27 10:25:13 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/f9243b52-8cf8-43f8-aa67-64a62330b02c
+
+2025-05-27 10:25:13 - DEBUG : Community submission completed for draft vfspe-6rp67
+
+2025-05-27 10:25:13 - INFO : Successfully migrated record https://zenodo.org/api/records/8308137
+
+2025-05-27 10:25:14 - DEBUG : Draft created with ID: 1tdz6-kxf30
+
+2025-05-27 10:25:15 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/323a8517-1131-4e37-b7c8-e7c5d7057705
+
+2025-05-27 10:25:15 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/323a8517-1131-4e37-b7c8-e7c5d7057705
+
+2025-05-27 10:25:15 - DEBUG : Community submission completed for draft 1tdz6-kxf30
+
+2025-05-27 10:25:15 - INFO : Successfully migrated record https://zenodo.org/api/records/8156174
+
+2025-05-27 10:25:16 - DEBUG : Draft created with ID: zvdjx-nv467
+
+2025-05-27 10:25:17 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/43ad6d63-f3ba-41a6-ac0f-c3272cd5d972
+
+2025-05-27 10:25:17 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/43ad6d63-f3ba-41a6-ac0f-c3272cd5d972
+
+2025-05-27 10:25:17 - DEBUG : Community submission completed for draft zvdjx-nv467
+
+2025-05-27 10:25:17 - INFO : Successfully migrated record https://zenodo.org/api/records/8017226
+
+2025-05-27 10:25:18 - DEBUG : Draft created with ID: prmxg-20m78
+
+2025-05-27 10:25:19 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/f00714be-ef0a-4c7c-b62a-83cbbe94dbec
+
+2025-05-27 10:25:19 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/f00714be-ef0a-4c7c-b62a-83cbbe94dbec
+
+2025-05-27 10:25:19 - DEBUG : Community submission completed for draft prmxg-20m78
+
+2025-05-27 10:25:19 - INFO : Successfully migrated record https://zenodo.org/api/records/8006451
+
+2025-05-27 10:25:20 - DEBUG : Draft created with ID: zxnhx-pr752
+
+2025-05-27 10:25:21 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/4f288201-f62f-41e0-979e-09e99a8f299e
+
+2025-05-27 10:25:21 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/4f288201-f62f-41e0-979e-09e99a8f299e
+
+2025-05-27 10:25:21 - DEBUG : Community submission completed for draft zxnhx-pr752
+
+2025-05-27 10:25:21 - INFO : Successfully migrated record https://zenodo.org/api/records/7995806
+
+2025-05-27 10:25:21 - DEBUG : Draft created with ID: sbe39-s5t10
+
+2025-05-27 10:25:23 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/4bd1bc23-7d01-4605-baec-9641e574e471
+
+2025-05-27 10:25:23 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/4bd1bc23-7d01-4605-baec-9641e574e471
+
+2025-05-27 10:25:23 - DEBUG : Community submission completed for draft sbe39-s5t10
+
+2025-05-27 10:25:23 - INFO : Successfully migrated record https://zenodo.org/api/records/7928614
+
+2025-05-27 10:25:24 - DEBUG : Draft created with ID: m7wnq-vv339
+
+2025-05-27 10:25:25 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/f78721c2-1879-4235-92bf-1bd2e83319a2
+
+2025-05-27 10:25:25 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/f78721c2-1879-4235-92bf-1bd2e83319a2
+
+2025-05-27 10:25:25 - DEBUG : Community submission completed for draft m7wnq-vv339
+
+2025-05-27 10:25:25 - INFO : Successfully migrated record https://zenodo.org/api/records/7799160
+
+2025-05-27 10:25:26 - DEBUG : Draft created with ID: mgzx4-z0n80
+
+2025-05-27 10:25:27 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/b622972c-97f4-4b73-bc50-751bb451e5a4
+
+2025-05-27 10:25:27 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/b622972c-97f4-4b73-bc50-751bb451e5a4
+
+2025-05-27 10:25:27 - DEBUG : Community submission completed for draft mgzx4-z0n80
+
+2025-05-27 10:25:27 - INFO : Successfully migrated record https://zenodo.org/api/records/7750658
+
+2025-05-27 10:25:27 - DEBUG : Draft created with ID: jr6vg-ack72
+
+2025-05-27 10:25:29 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/224b2d1a-b91b-4310-865a-da4c55e3ffff
+
+2025-05-27 10:25:29 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/224b2d1a-b91b-4310-865a-da4c55e3ffff
+
+2025-05-27 10:25:29 - DEBUG : Community submission completed for draft jr6vg-ack72
+
+2025-05-27 10:25:29 - INFO : Successfully migrated record https://zenodo.org/api/records/7732900
+
+2025-05-27 10:25:29 - DEBUG : Draft created with ID: kntxe-2b081
+
+2025-05-27 10:25:30 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/df6f7971-8c05-41af-82f4-a37a0b2f81c1
+
+2025-05-27 10:25:31 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/df6f7971-8c05-41af-82f4-a37a0b2f81c1
+
+2025-05-27 10:25:31 - DEBUG : Community submission completed for draft kntxe-2b081
+
+2025-05-27 10:25:31 - INFO : Successfully migrated record https://zenodo.org/api/records/7729369
+
+2025-05-27 10:25:31 - DEBUG : Draft created with ID: z13sa-6bc36
+
+2025-05-27 10:25:32 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/07e1554b-b201-4ca0-9def-63a40e796fe1
+
+2025-05-27 10:25:33 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/07e1554b-b201-4ca0-9def-63a40e796fe1
+
+2025-05-27 10:25:33 - DEBUG : Community submission completed for draft z13sa-6bc36
+
+2025-05-27 10:25:33 - INFO : Successfully migrated record https://zenodo.org/api/records/7726192
+
+2025-05-27 10:25:33 - DEBUG : Draft created with ID: 1zkwc-vh141
+
+2025-05-27 10:25:34 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/f142eb76-402a-4de4-bf09-cb203523067b
+
+2025-05-27 10:25:34 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/f142eb76-402a-4de4-bf09-cb203523067b
+
+2025-05-27 10:25:34 - DEBUG : Community submission completed for draft 1zkwc-vh141
+
+2025-05-27 10:25:34 - INFO : Successfully migrated record https://zenodo.org/api/records/7584933
+
+2025-05-27 10:25:35 - DEBUG : Draft created with ID: pewc4-zj131
+
+2025-05-27 10:25:36 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/2defc674-cfe5-4ca6-955e-cbf2521c5835
+
+2025-05-27 10:25:36 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/2defc674-cfe5-4ca6-955e-cbf2521c5835
+
+2025-05-27 10:25:36 - DEBUG : Community submission completed for draft pewc4-zj131
+
+2025-05-27 10:25:36 - INFO : Successfully migrated record https://zenodo.org/api/records/7524622
+
+2025-05-27 10:25:37 - DEBUG : Draft created with ID: j2prw-xs234
+
+2025-05-27 10:25:38 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/99bebab6-6d49-4e0f-ada1-184084c5d798
+
+2025-05-27 10:25:38 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/99bebab6-6d49-4e0f-ada1-184084c5d798
+
+2025-05-27 10:25:38 - DEBUG : Community submission completed for draft j2prw-xs234
+
+2025-05-27 10:25:38 - INFO : Successfully migrated record https://zenodo.org/api/records/7520618
+
+2025-05-27 10:25:38 - DEBUG : Draft created with ID: 3vd18-0nf29
+
+2025-05-27 10:25:39 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/404ace4c-b980-4f09-8580-6a4f48d3d483
+
+2025-05-27 10:25:40 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/404ace4c-b980-4f09-8580-6a4f48d3d483
+
+2025-05-27 10:25:40 - DEBUG : Community submission completed for draft 3vd18-0nf29
+
+2025-05-27 10:25:40 - INFO : Successfully migrated record https://zenodo.org/api/records/7469900
+
+2025-05-27 10:25:40 - DEBUG : Draft created with ID: z2wys-tbf80
+
+2025-05-27 10:25:41 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/8abaf09d-740d-458e-8846-28daa447c959
+
+2025-05-27 10:25:42 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/8abaf09d-740d-458e-8846-28daa447c959
+
+2025-05-27 10:25:42 - DEBUG : Community submission completed for draft z2wys-tbf80
+
+2025-05-27 10:25:42 - INFO : Successfully migrated record https://zenodo.org/api/records/7405074
+
+2025-05-27 10:25:42 - DEBUG : Draft created with ID: 7zkqv-dhd73
+
+2025-05-27 10:25:43 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/4caf1cad-2e2e-4b46-bc24-7eb6e5b09ffa
+
+2025-05-27 10:25:44 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/4caf1cad-2e2e-4b46-bc24-7eb6e5b09ffa
+
+2025-05-27 10:25:44 - DEBUG : Community submission completed for draft 7zkqv-dhd73
+
+2025-05-27 10:25:44 - INFO : Successfully migrated record https://zenodo.org/api/records/7348563
+
+2025-05-27 10:25:44 - DEBUG : Draft created with ID: 32rtp-m3730
+
+2025-05-27 10:25:45 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/5cb8790e-f9ae-4edc-a0ed-7ee06db02d6e
+
+2025-05-27 10:25:45 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/5cb8790e-f9ae-4edc-a0ed-7ee06db02d6e
+
+2025-05-27 10:25:45 - DEBUG : Community submission completed for draft 32rtp-m3730
+
+2025-05-27 10:25:45 - INFO : Successfully migrated record https://zenodo.org/api/records/7100288
+
+2025-05-27 10:25:46 - DEBUG : Draft created with ID: ppnjj-s6420
+
+2025-05-27 10:25:47 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/7ea7bb8d-4821-4fb1-bfb1-ad6ca8e80a2b
+
+2025-05-27 10:25:47 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/7ea7bb8d-4821-4fb1-bfb1-ad6ca8e80a2b
+
+2025-05-27 10:25:47 - DEBUG : Community submission completed for draft ppnjj-s6420
+
+2025-05-27 10:25:47 - INFO : Successfully migrated record https://zenodo.org/api/records/6802653
+
+2025-05-27 10:25:48 - DEBUG : Draft created with ID: wv51y-vmp23
+
+2025-05-27 10:25:49 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/1fc4627b-0c01-4341-82d8-5bc368d33e72
+
+2025-05-27 10:25:49 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/1fc4627b-0c01-4341-82d8-5bc368d33e72
+
+2025-05-27 10:25:49 - DEBUG : Community submission completed for draft wv51y-vmp23
+
+2025-05-27 10:25:49 - INFO : Successfully migrated record https://zenodo.org/api/records/6778824
+
+2025-05-27 10:25:50 - DEBUG : Draft created with ID: cjvdh-gp383
+
+2025-05-27 10:25:51 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/a440be49-8462-4136-824b-6dd2b492efc4
+
+2025-05-27 10:25:51 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/a440be49-8462-4136-824b-6dd2b492efc4
+
+2025-05-27 10:25:51 - DEBUG : Community submission completed for draft cjvdh-gp383
+
+2025-05-27 10:25:51 - INFO : Successfully migrated record https://zenodo.org/api/records/6760230
+
+2025-05-27 10:25:52 - DEBUG : Draft created with ID: pqyas-28066
+
+2025-05-27 10:25:53 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/e775e577-b52e-4341-85af-bbaa5c9fa433
+
+2025-05-27 10:25:53 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/e775e577-b52e-4341-85af-bbaa5c9fa433
+
+2025-05-27 10:25:53 - DEBUG : Community submission completed for draft pqyas-28066
+
+2025-05-27 10:25:53 - INFO : Successfully migrated record https://zenodo.org/api/records/6556750
+
+2025-05-27 10:25:53 - DEBUG : Draft created with ID: 0de3e-9k777
+
+2025-05-27 10:25:54 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/064111f8-6a6f-4732-ba71-532749e78f3a
+
+2025-05-27 10:25:55 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/064111f8-6a6f-4732-ba71-532749e78f3a
+
+2025-05-27 10:25:55 - DEBUG : Community submission completed for draft 0de3e-9k777
+
+2025-05-27 10:25:55 - INFO : Successfully migrated record https://zenodo.org/api/records/6508428
+
+2025-05-27 10:25:55 - DEBUG : Draft created with ID: gngcf-xq673
+
+2025-05-27 10:25:56 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/c9247bd1-7b66-4132-8a60-35dba1592f19
+
+2025-05-27 10:25:57 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/c9247bd1-7b66-4132-8a60-35dba1592f19
+
+2025-05-27 10:25:57 - DEBUG : Community submission completed for draft gngcf-xq673
+
+2025-05-27 10:25:57 - INFO : Successfully migrated record https://zenodo.org/api/records/6480220
+
+2025-05-27 10:25:57 - DEBUG : Draft created with ID: cyn07-5sk96
+
+2025-05-27 10:25:58 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/01aed095-71da-4be2-afd5-349322a55dce
+
+2025-05-27 10:25:59 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/01aed095-71da-4be2-afd5-349322a55dce
+
+2025-05-27 10:25:59 - DEBUG : Community submission completed for draft cyn07-5sk96
+
+2025-05-27 10:25:59 - INFO : Successfully migrated record https://zenodo.org/api/records/6469863
+
+2025-05-27 10:25:59 - DEBUG : Draft created with ID: emsbw-06z54
+
+2025-05-27 10:26:00 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/695bc786-5c0a-4df3-b335-979d799d5211
+
+2025-05-27 10:26:00 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/695bc786-5c0a-4df3-b335-979d799d5211
+
+2025-05-27 10:26:00 - DEBUG : Community submission completed for draft emsbw-06z54
+
+2025-05-27 10:26:00 - INFO : Successfully migrated record https://zenodo.org/api/records/6090875
+
+2025-05-27 10:26:01 - DEBUG : Draft created with ID: asxqz-b6g85
+
+2025-05-27 10:26:02 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/15ca1e0a-aa47-4000-badd-5b4c2ee66a4d
+
+2025-05-27 10:26:02 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/15ca1e0a-aa47-4000-badd-5b4c2ee66a4d
+
+2025-05-27 10:26:02 - DEBUG : Community submission completed for draft asxqz-b6g85
+
+2025-05-27 10:26:02 - INFO : Successfully migrated record https://zenodo.org/api/records/5896641
+
+2025-05-27 10:26:03 - DEBUG : Draft created with ID: 22zde-7hq70
+
+2025-05-27 10:26:04 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/268256f3-e554-4a9e-bdea-0d484aa1de2c
+
+2025-05-27 10:26:04 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/268256f3-e554-4a9e-bdea-0d484aa1de2c
+
+2025-05-27 10:26:04 - DEBUG : Community submission completed for draft 22zde-7hq70
+
+2025-05-27 10:26:04 - INFO : Successfully migrated record https://zenodo.org/api/records/5770703
+
+2025-05-27 10:26:04 - DEBUG : Draft created with ID: 6p53x-4yt31
+
+2025-05-27 10:26:06 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/517accad-2890-4308-a96b-9dd85a753f39
+
+2025-05-27 10:26:06 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/517accad-2890-4308-a96b-9dd85a753f39
+
+2025-05-27 10:26:06 - DEBUG : Community submission completed for draft 6p53x-4yt31
+
+2025-05-27 10:26:06 - INFO : Successfully migrated record https://zenodo.org/api/records/5741363
+
+2025-05-27 10:26:06 - DEBUG : Draft created with ID: 6w0pc-7ks78
+
+2025-05-27 10:26:07 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/62e47f80-ef6f-42f8-a866-18e8261574a0
+
+2025-05-27 10:26:08 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/62e47f80-ef6f-42f8-a866-18e8261574a0
+
+2025-05-27 10:26:08 - DEBUG : Community submission completed for draft 6w0pc-7ks78
+
+2025-05-27 10:26:08 - INFO : Successfully migrated record https://zenodo.org/api/records/5643563
+
+2025-05-27 10:26:08 - DEBUG : Draft created with ID: qy3cc-14022
+
+2025-05-27 10:26:09 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/c4280f8c-361a-46de-9489-f94c9d1c79f9
+
+2025-05-27 10:26:09 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/c4280f8c-361a-46de-9489-f94c9d1c79f9
+
+2025-05-27 10:26:09 - DEBUG : Community submission completed for draft qy3cc-14022
+
+2025-05-27 10:26:09 - INFO : Successfully migrated record https://zenodo.org/api/records/5085869
+
+2025-05-27 10:26:10 - DEBUG : Draft created with ID: 877s8-wzp69
+
+2025-05-27 10:26:11 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/b67c8964-c9cb-49d7-8ebc-685c05fdc3f7
+
+2025-05-27 10:26:11 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/b67c8964-c9cb-49d7-8ebc-685c05fdc3f7
+
+2025-05-27 10:26:11 - DEBUG : Community submission completed for draft 877s8-wzp69
+
+2025-05-27 10:26:11 - INFO : Successfully migrated record https://zenodo.org/api/records/5514167
+
+2025-05-27 10:26:12 - DEBUG : Draft created with ID: fx9jr-d5a12
+
+2025-05-27 10:26:13 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/ceb1bd8b-07ee-4bb4-8d2d-416f858638e7
+
+2025-05-27 10:26:13 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/ceb1bd8b-07ee-4bb4-8d2d-416f858638e7
+
+2025-05-27 10:26:13 - DEBUG : Community submission completed for draft fx9jr-d5a12
+
+2025-05-27 10:26:13 - INFO : Successfully migrated record https://zenodo.org/api/records/5496034
+
+2025-05-27 10:26:13 - DEBUG : Draft created with ID: wfbyk-0xe76
+
+2025-05-27 10:26:15 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/b3824d8c-cc93-4b03-85c8-26687d08fe8f
+
+2025-05-27 10:26:15 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/b3824d8c-cc93-4b03-85c8-26687d08fe8f
+
+2025-05-27 10:26:15 - DEBUG : Community submission completed for draft wfbyk-0xe76
+
+2025-05-27 10:26:15 - INFO : Successfully migrated record https://zenodo.org/api/records/5113208
+
+2025-05-27 10:26:15 - DEBUG : Draft created with ID: 7vpmh-mnh23
+
+2025-05-27 10:26:16 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/dc974986-b027-4605-81e2-06e30ddb7ea2
+
+2025-05-27 10:26:17 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/dc974986-b027-4605-81e2-06e30ddb7ea2
+
+2025-05-27 10:26:17 - DEBUG : Community submission completed for draft 7vpmh-mnh23
+
+2025-05-27 10:26:17 - INFO : Successfully migrated record https://zenodo.org/api/records/5101626
+
+2025-05-27 10:26:17 - DEBUG : Draft created with ID: qntpd-hyb72
+
+2025-05-27 10:26:18 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/61012d79-a625-4211-b8d9-88153323a56f
+
+2025-05-27 10:26:19 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/61012d79-a625-4211-b8d9-88153323a56f
+
+2025-05-27 10:26:19 - DEBUG : Community submission completed for draft qntpd-hyb72
+
+2025-05-27 10:26:19 - INFO : Successfully migrated record https://zenodo.org/api/records/5101548
+
+2025-05-27 10:26:19 - DEBUG : Draft created with ID: 1fr2j-je607
+
+2025-05-27 10:26:20 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/3f43715d-59db-40bb-8c35-b6111ad9a463
+
+2025-05-27 10:26:21 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/3f43715d-59db-40bb-8c35-b6111ad9a463
+
+2025-05-27 10:26:21 - DEBUG : Community submission completed for draft 1fr2j-je607
+
+2025-05-27 10:26:21 - INFO : Successfully migrated record https://zenodo.org/api/records/5084811
+
+2025-05-27 10:26:21 - DEBUG : Draft created with ID: ve6dq-1dp44
+
+2025-05-27 10:26:22 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/ac5628e9-5bfb-4dc7-9029-7ba79fa574bc
+
+2025-05-27 10:26:22 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/ac5628e9-5bfb-4dc7-9029-7ba79fa574bc
+
+2025-05-27 10:26:22 - DEBUG : Community submission completed for draft ve6dq-1dp44
+
+2025-05-27 10:26:22 - INFO : Successfully migrated record https://zenodo.org/api/records/5070929
+
+2025-05-27 10:26:23 - DEBUG : Draft created with ID: b4qbr-8jd81
+
+2025-05-27 10:26:24 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/579a5ffc-c70a-4f7b-a892-4a60c091f5b4
+
+2025-05-27 10:26:24 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/579a5ffc-c70a-4f7b-a892-4a60c091f5b4
+
+2025-05-27 10:26:24 - DEBUG : Community submission completed for draft b4qbr-8jd81
+
+2025-05-27 10:26:24 - INFO : Successfully migrated record https://zenodo.org/api/records/4494912
+
+2025-05-27 10:26:25 - DEBUG : Draft created with ID: 3ta55-crj60
+
+2025-05-27 10:26:26 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/aacfbeac-2487-4e21-9443-5fb53cb5b461
+
+2025-05-27 10:26:26 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/aacfbeac-2487-4e21-9443-5fb53cb5b461
+
+2025-05-27 10:26:26 - DEBUG : Community submission completed for draft 3ta55-crj60
+
+2025-05-27 10:26:26 - INFO : Successfully migrated record https://zenodo.org/api/records/4465809
+
+2025-05-27 10:26:28 - DEBUG : Draft created with ID: zzydy-22s94
+
+2025-05-27 10:26:29 - DEBUG : Review request created: https://sandbox.datarepository.kth.se/api/requests/c5ea4317-6b35-437d-96bc-93da2f6d4654
+
+2025-05-27 10:26:29 - DEBUG : Review submission created: https://sandbox.datarepository.kth.se/api/requests/c5ea4317-6b35-437d-96bc-93da2f6d4654
+
+2025-05-27 10:26:29 - DEBUG : Community submission completed for draft zzydy-22s94
+
+2025-05-27 10:26:29 - INFO : Successfully migrated record https://zenodo.org/api/records/4030660
+
+2025-05-27 10:26:29 - INFO : Migration completed. Success: 55, Failed: 2
+
+2025-05-27 10:26:29 - WARNING : Failed records: [15411009, 14192929]
+
